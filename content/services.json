@@ -1,0 +1,225 @@
+{
+  "source": "https://yehmeebeautylounge.bookinbeautiful.de/book (read 2026-10-20)",
+  "currency": "EUR",
+  "depositEur": 15,
+  "staff": [{ "id": "melissa", "name": "Melissa" }],
+  "categories": [
+    {
+      "id": "lashes",
+      "name": { "de": "Wimpern", "en": "Lashes", "fr": "Cils" },
+      "services": [
+        {
+          "id": "classic-1-1",
+          "name": "Classic 1:1",
+          "durationMin": 150,
+          "priceEur": 50,
+          "description": {
+            "de": "Sanftes, natürliches Ergebnis, das deinen Blick dezent verschönert.",
+            "en": "A soft, natural look that gently enhances your lashes.",
+            "fr": "Un résultat doux et naturel qui sublime discrètement le regard."
+          }
+        },
+        {
+          "id": "refill",
+          "name": "Auffüllen / Refill / Remplissage",
+          "durationMin": 90,
+          "priceEur": 40,
+          "description": {
+            "de": "Auffrischung für ein frisches, volles und gepflegtes Aussehen.",
+            "en": "A touch-up that keeps your lashes fresh, full and beautifully maintained.",
+            "fr": "Un entretien qui garde vos cils frais, pleins et parfaitement soignés."
+          }
+        },
+        {
+          "id": "hybrid",
+          "name": "Hybrid / Mixte",
+          "durationMin": 150,
+          "priceEur": 55,
+          "description": {
+            "de": "Ein ausgewogener Mix aus Klassik und Volumen für einen definierten, aber weichen Look.",
+            "en": "A balanced blend of classic and volume for a soft yet defined look.",
+            "fr": "Un équilibre parfait entre classique et volume pour un regard doux mais structuré."
+          }
+        },
+        {
+          "id": "russian-volume-3d-5d",
+          "name": "Russian Volume / Volume Russe (3D–5D)",
+          "durationMin": 150,
+          "priceEur": 65,
+          "description": {
+            "de": "Feine, gleichmäßige Wimpern für ein volleres und glamouröses Ergebnis.",
+            "en": "Soft, even lashes that create a fuller and more glamorous effect.",
+            "fr": "Des cils légers et réguliers pour un rendu plus dense, intense et glamour."
+          }
+        },
+        {
+          "id": "classic-wet-set",
+          "name": "Classic Wet Set",
+          "durationMin": 150,
+          "priceEur": 55,
+          "description": {
+            "de": "Klassische Wimpern mit einem dezenten Wet-Look-Effekt.",
+            "en": "Classic lashes styled with a subtle wet-look effect.",
+            "fr": "Cils classiques travaillés avec un effet wet-look subtil."
+          }
+        },
+        {
+          "id": "russian-volume-6d-plus",
+          "name": "Russian Volume / Volume Russe (6D+)",
+          "durationMin": 150,
+          "priceEur": 70,
+          "description": {
+            "de": "Intensiver Volumen-Look mit extra Dichte für einen ausdrucksstarken Effekt.",
+            "en": "An intense volume set with extra density for a bold, dramatic look.",
+            "fr": "Volume intense avec une densité renforcée pour un regard très marqué."
+          }
+        },
+        {
+          "id": "mega-volume",
+          "name": "Mega Volume (Dramatic / Extra Full)",
+          "durationMin": 195,
+          "priceEur": 80,
+          "description": {
+            "de": "Sehr dichter und intensiver Look für einen ultra glamourösen Augenaufschlag. Perfekt für einen dramatischen und eleganten Style.",
+            "en": "Very dense and intense look for an ultra glamorous effect. Perfect for a dramatic and sophisticated style.",
+            "fr": "Effet très dense et intense pour un regard ultra glamour. Parfait pour un look dramatique et sophistiqué ✨"
+          }
+        },
+        {
+          "id": "mega-volume-refill",
+          "name": "Mega Volumen Auffüllen",
+          "durationMin": 120,
+          "priceEur": 50
+        },
+        {
+          "id": "removal-other-salon",
+          "name": "Entfernung von Fremdarbeit (ohne Neuset)",
+          "durationMin": 30,
+          "priceEur": 10,
+          "description": {
+            "de": "Die Entfernung von Fremdarbeiten kostet 10 €, wenn keine neue Wimpernverlängerung gemacht wird. Bei einem Neuset am selben Tag ist die Entfernung kostenlos."
+          }
+        }
+      ]
+    },
+    {
+      "id": "lifting-brows",
+      "name": { "de": "Lifting & Brows", "en": "Lifting & Brows", "fr": "Lifting & sourcils" },
+      "services": [
+        {
+          "id": "lash-lifting",
+          "name": "Lash Lifting",
+          "durationMin": 60,
+          "priceEur": 40,
+          "description": {
+            "de": "Eine Behandlung, die die natürlichen Wimpern anhebt und optisch verlängert.",
+            "en": "A treatment that lifts and enhances natural lashes for a longer, more open look.",
+            "fr": "Un soin qui recourbe et met en valeur les cils naturels pour un regard plus ouvert."
+          }
+        },
+        {
+          "id": "lash-lifting-tint",
+          "name": "Lash Lifting + Tint",
+          "durationMin": 75,
+          "priceEur": 50
+        }
+      ]
+    },
+    {
+      "id": "skin",
+      "name": { "de": "Hautbehandlungen", "en": "Skin Treatments", "fr": "Soins de la peau" },
+      "services": [
+        {
+          "id": "microneedling-1",
+          "name": "Microneedling Gesicht (1 Sitzung)",
+          "durationMin": 60,
+          "priceEur": 80,
+          "description": {
+            "de": "Eine Hautbehandlung, die die Kollagenproduktion anregt und Hautstruktur, Teint und Ausstrahlung verbessert. Für optimale Ergebnisse werden mehrere Sitzungen empfohlen.",
+            "en": "A skin treatment that stimulates collagen production to improve skin texture, tone and overall radiance. Multiple sessions are recommended for optimal results.",
+            "fr": "Un soin de la peau qui stimule la production de collagène pour améliorer la texture, le teint et l’éclat. Plusieurs séances sont recommandées pour des résultats optimaux."
+          }
+        },
+        {
+          "id": "microneedling-3",
+          "name": "Microneedling – 3er-Kur",
+          "durationMin": 60,
+          "priceEur": 210,
+          "sessions": 3,
+          "description": {
+            "de": "Eine Kur mit 3 Sitzungen zur Verbesserung von Hautstruktur, Teint und Ausstrahlung.",
+            "en": "A course of 3 sessions designed to improve skin texture, tone and radiance for optimal results.",
+            "fr": "Une cure de 3 séances pour améliorer la texture, le teint et l’éclat de la peau."
+          }
+        },
+        {
+          "id": "microneedling-4",
+          "name": "Microneedling – 4er-Kur",
+          "durationMin": 60,
+          "priceEur": 260,
+          "sessions": 4,
+          "description": {
+            "de": "Eine Kur mit 4 Sitzungen für intensivere und langanhaltende Hautergebnisse.",
+            "en": "A course of 4 sessions recommended for enhanced and long-lasting skin results.",
+            "fr": "Une cure de 4 séances recommandée pour des résultats renforcés et durables."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nails",
+      "name": { "de": "Nägel", "en": "Nails", "fr": "Ongles" },
+      "note": {
+        "de": "Acryl-Auffüllen bis 4 Wochen. Ab der 5. Woche gilt der Preis einer Neumodellage.",
+        "en": "Acrylic refills up to 4 weeks. From week 5 the price of a new set applies.",
+        "fr": "Remplissage acrylique jusqu’à 4 semaines. À partir de la 5e semaine, le prix d’une nouvelle pose s’applique."
+      },
+      "services": [
+        {
+          "id": "acrylic-new-set",
+          "name": "Acryl-Neumodellage inkl. Nail Art",
+          "durationMin": 180,
+          "priceEur": 50,
+          "description": { "de": "Individuelle Acrylmodellage – ganz nach Ihren Wünschen." }
+        },
+        {
+          "id": "acrylic-refill",
+          "name": "Acryl-Auffüllen",
+          "durationMin": 105,
+          "priceEur": 35,
+          "description": { "de": "Auffüllen einer bestehenden Acrylmodellage bis 4 Wochen. Ab 5 Wochen gilt der Preis einer Neumodellage." }
+        },
+        {
+          "id": "acrylic-refill-other-salon",
+          "name": "Acryl-Auffüllen von Fremdarbeit",
+          "durationMin": 105,
+          "priceEur": 40
+        },
+        {
+          "id": "gel-polish",
+          "name": "Permanentlack",
+          "durationMin": 60,
+          "priceEur": 30
+        },
+        {
+          "id": "acrylic-removal-own",
+          "name": "Acryl-Entfernung (Eigenarbeit)",
+          "durationMin": 45,
+          "priceEur": 10
+        },
+        {
+          "id": "acrylic-removal-other-salon",
+          "name": "Acryl-Entfernung (Fremdarbeit)",
+          "durationMin": 45,
+          "priceEur": 20
+        },
+        {
+          "id": "acrylic-removal-new-set",
+          "name": "Acryl-Entfernung + Neumodellage inkl. Nail Art",
+          "durationMin": 210,
+          "priceEur": 60
+        }
+      ]
+    }
+  ]
+}

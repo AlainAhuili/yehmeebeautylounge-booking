@@ -1,0 +1,377 @@
+[
+    {
+        "file":  "images/brand/logo.png",
+        "group":  "brand",
+        "source":  "https://cdn.nearcut.com/DQSMW451/logo_1000170176.png"
+    },
+    {
+        "file":  "images/brand/share-image.png",
+        "group":  "brand",
+        "source":  "https://cdn.nearcut.com/DQSMW451/og_1000170176.png"
+    },
+    {
+        "file":  "images/slides/slide-2.jpg",
+        "group":  "slides",
+        "source":  "https://cdn.nearcut.com/3GXU48C6/305338C7-8DE5-4DA9-B453-37BA5F3D96DE.png"
+    },
+    {
+        "file":  "images/slides/slide-3.jpg",
+        "group":  "slides",
+        "source":  "https://cdn.nearcut.com/AZTHQKL6/C3A2E532-84DA-4415-AF2F-EFF638AE1E05.png"
+    },
+    {
+        "file":  "images/slides/slide-1.jpg",
+        "group":  "slides",
+        "source":  "https://cdn.nearcut.com/4C0LM95X/9AF036B8-AC66-4575-B71A-D956D7458A5C.png"
+    },
+    {
+        "file":  "images/gallery/featured/featured-01.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/I1C5EDR7/052F07AE-1B5E-4ED0-9499-31698406B49B.png"
+    },
+    {
+        "file":  "images/gallery/featured/featured-02.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/4KHX13DW/07689ff7-ef68-418f-9913-75ded3d804f6.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-03.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/8KYQP6TH/IMG_1852.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-04.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/HUNW6YBG/IMG_1851.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-05.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/TD6K5GQ1/IMG_1575.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-06.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/W5R3DN4U/1000132652.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-07.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/47THS0QL/1000136867.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-08.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/QWNX5ZC6/1000131910.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-09.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/RFEMQL5U/1000131904.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-10.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/A742WSY6/1000131898.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-11.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/ZT6FHSBE/copy_980CFAA2-A0A8-46D8-B2EF-E434A339E90A.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-12.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/BW21R50E/IMG_0945.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-13.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/SD1CX527/IMG_0661.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-14.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/6LCTEV1S/IMG_0934.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-15.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/192IVGWK/IMG_0991.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-16.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/EMQ1I84U/IMG_0946.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-17.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/EDXPUKNG/IMG_0948.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-18.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/RQZL4U8N/IMG_0283.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-19.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/YLX7G2RP/IMG_0986.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-20.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/DRP7U4BW/copy_C7AFCA3F-E702-4E97-9EF1-AC970023CAA1.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-21.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/CP0ISGWT/IMG_0400.jpeg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-22.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/KFGZYE/1000095936.jpg"
+    },
+    {
+        "file":  "images/gallery/featured/featured-23.jpg",
+        "group":  "gallery/featured",
+        "source":  "https://cdn.nearcut.com/IZWGXN/IMG_9791.jpeg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-01.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/4C0LM95X/9AF036B8-AC66-4575-B71A-D956D7458A5C.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-02.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/RH7LMB8O/A8C38D1E-010E-4514-9AFF-28E5A7906A31.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-03.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/IP13T9NR/6CAE443D-19D4-48A6-8E33-1E1D7B5981DD.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-04.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/1P8DACTK/1000200646.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-05.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/8U2BPJF3/1000200645.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-06.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/D60M1E4C/1000199595.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-07.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/PTUQX79D/copy_DE2ACBBA-0962-4BC9-AEAD-9B31FFF735A3.jpeg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-08.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/950GDN2H/402dce34-119e-42a0-b888-c2225c859d37.jpeg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-09.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/4UFR8ZS7/1000193983.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-10.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/LMCAHX96/1000187395.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-11.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/YBCX0HUD/24507AFF-D1B4-47F8-8949-3871D8D2E84E.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-12.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/WTN0BY3E/91BF697F-F761-459F-8ED8-B96197303C87.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-13.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/LQKNPU4O/F49A7165-88DC-4171-BE42-1498A777C6C0.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-14.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/LK0C9IO6/2C466DD0-05C8-46C5-97DB-E3D0A92357D0.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-15.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/V2PN03GE/11478D65-4CCC-469A-981A-D94E70717E7F.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-16.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/J09IAB2P/07689ff7-ef68-418f-9913-75ded3d804f6.jpeg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-17.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/2AE5JTHD/1000172907.jpg"
+    },
+    {
+        "file":  "images/gallery/nails/nails-18.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/QTEAJP4I/6289773F-F296-4289-A369-6FCC74DBC14D.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-19.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/GV8ONJRK/1BE8A192-1C62-44B8-895F-02EE771CAD87.png"
+    },
+    {
+        "file":  "images/gallery/nails/nails-20.jpg",
+        "group":  "gallery/nails",
+        "source":  "https://cdn.nearcut.com/D6Q1A4X9/5584687C-AD7A-45EB-B125-A5A55A55304C.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-01.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/3GXU48C6/305338C7-8DE5-4DA9-B453-37BA5F3D96DE.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-02.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/AZTHQKL6/C3A2E532-84DA-4415-AF2F-EFF638AE1E05.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-03.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/QPVTHBA2/2A866218-6E2B-4EA3-9F30-21723D561B4A.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-04.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/VOG2SX6J/4BBBBD06-38EF-4AC0-B4BC-419564C5C474.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-05.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/O10N57HX/A9DDFE3F-92FB-462C-A90E-4FBF03ADB70D.png"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-06.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/Y85ZRWKN/IMG_4910.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-07.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/93JSC18K/IMG_4734.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-08.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/OL0RXGMP/IMG_4752.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-09.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/ILBSV5R2/IMG_4754.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-10.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/H8UVYLWA/IMG_4796.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-11.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/Y6VAJ87M/IMG_3948.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-12.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/MQ786XFJ/IMG_4051.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-13.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/U0L7KJM8/copy_E21E5559-1DA7-48E1-AD97-7CD5CC4912DE.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-14.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/Y53UP862/1000174622.jpg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-15.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/KQR0XMH7/1000136863.jpg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-16.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/9DV3LR8H/IMG_3682.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-17.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/C5GSLR04/IMG_2548.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-18.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/SIGB32NA/IMG_3657.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-19.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/1POI823N/IMG_3677.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-20.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/9AQXFPOI/IMG_2607.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-21.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/NKW7XIF2/IMG_2798.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-22.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/NIW7X9PL/IMG_2983.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-23.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/48I1F6DW/IMG_2958.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-24.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/JXM1PDZR/copy_C5563F64-E60F-4E25-AD0F-4145C7856CFE.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-25.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/OR7CXQBN/IMG_1576.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-26.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/CYS6R1PK/IMG_2440.jpeg"
+    },
+    {
+        "file":  "images/gallery/lashes/lashes-27.jpg",
+        "group":  "gallery/lashes",
+        "source":  "https://cdn.nearcut.com/9UETAQV7/IMG_1936.jpeg"
+    }
+]
