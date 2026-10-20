@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dienstleistungen · YehMee Beauty Lounge</title>
+  <meta name="description" content="" />
+  <link rel="icon" type="image/png" href="/images/brand/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body data-page="services">
+  <div id="site-header"></div>
+
+  <div class="back-band"><a href="/buchen" class="btn btn--light" data-i18n="services.band">Buchen</a></div>
+
+  <main class="step">
+    <h1 class="step__title" data-i18n="services.title">Wähle einen Service</h1>
+    <p class="step__sub" data-i18n="services.sub">Bitte buche jede Leistung separat.</p>
+    <div id="services"><p data-i18n="common.loading">Wird geladen…</p></div>
+
+    <section class="card terms" id="bedingungen">
+      <h2 data-i18n="terms.title">Buchungsbedingungen</h2>
+      <p data-i18n="terms.p1"></p>
+      <p data-i18n="terms.p2"></p>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/layout.js" type="module"></script>
+  <script type="module">
+    import { t } from '/js/i18n.js';
+    import { api } from '/js/lib.js';
+    import { renderServiceList } from '/js/service-list.js';
+
+    const root = document.getElementById('services');
+    try {
+      const catalog = await api('GET', '/api/services');
+      renderServiceList(root, catalog, { onNext: (service) => { location.href = `/buchen?service=${service.id}`; } });
+    } catch {
+      root.textContent = t('common.loadError');
+    }
+  </script>
+</body>
+</html>

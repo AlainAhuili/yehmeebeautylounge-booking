@@ -1,0 +1,24 @@
+{
+  "name": "YehMee Beauty Lounge",
+  "staff": "Melissa",
+  "address": { "street": "Brendelweg 155a", "postcode": "27755", "city": "Delmenhorst", "region": "Niedersachsen" },
+  "phone": "+49 15565 717419",
+  "email": "yehmeeeyes@gmail.com",
+  "timeZone": "Europe/Berlin",
+  "openingHours": {
+    "mon": null,
+    "tue": ["10:00", "19:30"],
+    "wed": ["10:00", "19:30"],
+    "thu": ["10:00", "19:30"],
+    "fri": ["10:00", "19:30"],
+    "sat": ["10:00", "18:00"],
+    "sun": null
+  },
+  "booking": {
+    "slotMinutes": 15,
+    "leadMinutes": 120,
+    "horizonDays": 56,
+    "depositEur": 15,
+    "freeCancelHours": 48
+  }
+}

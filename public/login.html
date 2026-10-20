@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Einloggen · YehMee Beauty Lounge</title>
+  <meta name="description" content="" />
+  <link rel="icon" type="image/png" href="/images/brand/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body data-page="login">
+  <div id="site-header"></div>
+
+  <p class="alert alert--warn" id="notice" hidden></p>
+
+  <main>
+    <!-- Log in -->
+    <section class="login" id="view-login" hidden>
+      <h1 data-i18n="login.title">Login</h1>
+      <p class="login__sub" data-i18n="login.sub">Bei Ihrem Konto anmelden</p>
+      <form id="form-login" novalidate>
+        <div class="field">
+          <label for="login-email" data-i18n="field.email">E-Mail</label>
+          <div class="input-group">
+            <span><svg viewBox="0 0 16 16"><path d="M1 3h14v10H1zm1.4 1L8 8.5 13.6 4zM2 12h12V5.2L8 10 2 5.2z" /></svg></span>
+            <input id="login-email" name="email" type="email" autocomplete="email" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="login-password" data-i18n="field.password">Passwort</label>
+          <div class="input-group">
+            <span><svg viewBox="0 0 16 16"><path d="M4 7V5a4 4 0 0 1 8 0v2h1v8H3V7zm2 0h4V5a2 2 0 0 0-4 0z" /></svg></span>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" name="remember" checked /> <span data-i18n="login.remember">Angemeldet bleiben</span></label>
+        <button class="btn btn--blue" type="submit" data-i18n="login.submit">Login</button>
+        <p class="form-error" role="alert"></p>
+      </form>
+      <div class="login__links">
+        <a href="?view=register" data-i18n="login.toRegister">Registrieren</a>
+        <a href="?view=forgot" data-i18n="login.toForgot">Passwort vergessen?</a>
+      </div>
+    </section>
+
+    <!-- Register -->
+    <section class="login" id="view-register" hidden>
+      <h1 data-i18n="register.title">Registrieren</h1>
+      <p class="login__sub" data-i18n="register.sub">Neues Konto erstellen</p>
+      <form id="form-register" novalidate>
+        <div class="field"><label for="reg-name" data-i18n="field.name">Vor- und Nachname</label><input class="plain" id="reg-name" name="name" autocomplete="name" required /></div>
+        <div class="field"><label for="reg-email" data-i18n="field.email">E-Mail</label><input class="plain" id="reg-email" name="email" type="email" autocomplete="email" required /></div>
+        <div class="field"><label for="reg-phone" data-i18n="field.phone">Telefonnummer</label><input class="plain" id="reg-phone" name="phone" type="tel" autocomplete="tel" required /></div>
+        <div class="field"><label for="reg-password" data-i18n="field.newPassword">Passwort (mindestens 8 Zeichen)</label><input class="plain" id="reg-password" name="password" type="password" autocomplete="new-password" minlength="8" required /></div>
+        <button class="btn btn--blue" type="submit" data-i18n="register.submit">Registrieren</button>
+        <p class="form-error" role="alert"></p>
+      </form>
+      <div class="login__links"><a href="?view=login" data-i18n="register.toLogin">Ich habe schon ein Konto</a></div>
+    </section>
+
+    <!-- Forgot password -->
+    <section class="login" id="view-forgot" hidden>
+      <h1 data-i18n="forgot.title">Passwort vergessen?</h1>
+      <p class="login__sub" data-i18n="forgot.sub">Wir schicken dir einen Link zum Zurücksetzen.</p>
+      <form id="form-forgot" novalidate>
+        <div class="field"><label for="forgot-email" data-i18n="field.email">E-Mail</label><input class="plain" id="forgot-email" name="email" type="email" autocomplete="email" required /></div>
+        <button class="btn btn--blue" type="submit" data-i18n="forgot.submit">Link senden</button>
+        <p class="form-error" role="alert"></p>
+      </form>
+      <div class="login__links"><a href="?view=login" data-i18n="forgot.toLogin">Zurück zum Login</a></div>
+    </section>
+
+    <!-- Reset password (from the emailed link) -->
+    <section class="login" id="view-reset" hidden>
+      <h1 data-i18n="reset.title">Neues Passwort</h1>
+      <p class="login__sub" data-i18n="reset.sub">Wähle ein neues Passwort.</p>
+      <form id="form-reset" novalidate>
+        <div class="field"><label for="reset-password" data-i18n="reset.field">Neues Passwort (mindestens 8 Zeichen)</label><input class="plain" id="reset-password" name="password" type="password" autocomplete="new-password" minlength="8" required /></div>
+        <button class="btn btn--blue" type="submit" data-i18n="reset.submit">Passwort speichern</button>
+        <p class="form-error" role="alert"></p>
+      </form>
+    </section>
+
+    <!-- My account -->
+    <section class="account" id="view-account" hidden>
+      <div class="account__head">
+        <div>
+          <h1 data-i18n="account.title">Mein Konto</h1>
+          <p id="account-name"></p>
+        </div>
+        <div class="account__actions">
+          <a href="/buchen" class="btn" data-i18n="account.new">Neuer Termin</a>
+          <button class="btn btn--light" type="button" id="logout" data-i18n="account.logout">Abmelden</button>
+        </div>
+      </div>
+      <h2 data-i18n="account.upcoming">Kommende Termine</h2>
+      <ul class="appointments" id="upcoming"></ul>
+      <h2 data-i18n="account.past">Vergangene und stornierte Termine</h2>
+      <ul class="appointments" id="past"></ul>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/layout.js" type="module"></script>
+  <script src="/js/login.js" type="module"></script>
+</body>
+</html>

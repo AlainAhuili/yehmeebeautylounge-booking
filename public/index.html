@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YehMee Beauty Lounge · Wimpern, Augenbrauen und Nägel in Delmenhorst</title>
+  <meta name="description" content="Wimpern, Augenbrauen und Nägel in entspannter Atmosphäre. Termin bei YehMee Beauty Lounge in Delmenhorst online buchen." />
+  <meta property="og:image" content="/images/brand/share-image.png" />
+  <link rel="icon" type="image/png" href="/images/brand/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="/css/app.css" />
+</head>
+<body data-page="home">
+  <div id="site-header"></div>
+
+  <main>
+    <section class="welcome">
+      <div class="wrap welcome__inner">
+        <div>
+          <h1 data-i18n="home.title">Willkommen bei YehMee Beauty Lounge.</h1>
+          <div data-i18n-html="home.intro">
+            <p>Willkommen bei YehMee Beauty Lounge<br />
+              Wimpern, Augenbrauen und Nägel in entspannter Atmosphäre. Präzision, Qualität und Liebe zum Detail für ein gepflegtes Ergebnis.</p>
+            <p lang="en">Welcome to YehMee Beauty Lounge<br />
+              Lash, brow and nail services in a calm atmosphere. Precision, quality and attention to detail for beautiful results.</p>
+            <p lang="fr">Bienvenue chez YehMee Beauty Lounge<br />
+              Prestations de cils, sourcils et ongles dans une atmosphère chaleureuse. Soin, précision et élégance pour un résultat soigné.</p>
+          </div>
+          <a href="/buchen" class="btn" data-i18n="home.book">Jetzt buchen</a>
+        </div>
+
+        <div class="slider" aria-roledescription="carousel" data-i18n-attr="aria-label: home.slider">
+          <div class="slider__track">
+            <img src="/images/slides/slide-1.jpg" alt="French Nails" />
+            <img src="/images/slides/slide-2.jpg" alt="Volume Lashes" />
+            <img src="/images/slides/slide-3.jpg" alt="YehMee Beauty Lounge" />
+          </div>
+          <div class="slider__dots" role="group">
+            <button type="button" aria-current="true"></button>
+            <button type="button"></button>
+            <button type="button"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="location">
+      <div class="wrap">
+        <h2 data-i18n="home.location">Unser Standort</h2>
+        <div class="location__card">
+          <div class="location__info">
+            <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.6 7-12a7 7 0 0 0-14 0c0 5.4 7 12 7 12z" /><circle cx="12" cy="10" r="2.6" /></svg>
+              YehMee Beauty Lounge, Delmenhorst</h3>
+            <address>Brendelweg 155a<br />Delmenhorst<br />Niedersachsen<br />27755</address>
+
+            <h3><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+              <span data-i18n="home.hours">Öffnungszeiten</span></h3>
+            <ul class="hours-list" id="hours"></ul>
+
+            <div class="location__actions">
+              <a href="mailto:yehmeeeyes@gmail.com" data-i18n-attr="aria-label: home.email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="1.5" /><path d="M4.5 7l7.5 6 7.5-6" /></svg>
+              </a>
+              <a href="tel:+4915565717419" data-i18n-attr="aria-label: home.call">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7.6 4.5l2 3.6-1.5 1.6a11 11 0 0 0 6.2 6.2l1.6-1.5 3.6 2-1 2.6c-.3.6-1 1-1.7.9C10.6 19.2 4.8 13.4 4.1 7.2c-.1-.7.3-1.4.9-1.7z" /></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Loads only after a click, so no visitor data goes to Google before they agree. -->
+          <div class="map" id="map">
+            <p data-i18n="home.mapText">Die Karte wird von Google Maps geladen. Dabei werden Daten an Google übertragen.</p>
+            <button class="btn" type="button" id="load-map" data-i18n="home.mapButton">Karte anzeigen</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/layout.js" type="module"></script>
+  <script src="/js/home.js" type="module"></script>
+</body>
+</html>

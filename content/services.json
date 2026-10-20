@@ -6,120 +6,206 @@
   "categories": [
     {
       "id": "lashes",
-      "name": { "de": "Wimpern", "en": "Lashes", "fr": "Cils" },
+      "name": { "de": "Wimpern", "en": "Lashes", "fr": "Cils", "es": "Pestañas", "it": "Ciglia", "nl": "Wimpers", "pt": "Pestanas", "tr": "Kirpik", "el": "Βλεφαρίδες", "pl": "Rzęsy", "cs": "Řasy" },
       "services": [
         {
           "id": "classic-1-1",
-          "name": "Classic 1:1",
+          "name": { "de": "Classic 1:1" },
           "durationMin": 150,
           "priceEur": 50,
           "description": {
             "de": "Sanftes, natürliches Ergebnis, das deinen Blick dezent verschönert.",
             "en": "A soft, natural look that gently enhances your lashes.",
-            "fr": "Un résultat doux et naturel qui sublime discrètement le regard."
+            "fr": "Un résultat doux et naturel qui sublime discrètement le regard.",
+            "es": "Un resultado suave y natural que realza tu mirada con discreción.",
+            "it": "Un risultato morbido e naturale che valorizza lo sguardo con discrezione.",
+            "nl": "Een zacht, natuurlijk resultaat dat je blik subtiel mooier maakt.",
+            "pt": "Um resultado suave e natural que realça o teu olhar com discrição.",
+            "tr": "Bakışlarını zarifçe güzelleştiren yumuşak ve doğal bir sonuç.",
+            "el": "Ένα απαλό, φυσικό αποτέλεσμα που ομορφαίνει διακριτικά το βλέμμα σου.",
+            "pl": "Delikatny, naturalny efekt, który subtelnie podkreśla spojrzenie.",
+            "cs": "Jemný, přirozený výsledek, který decentně zkrášlí tvůj pohled."
           }
         },
         {
           "id": "refill",
-          "name": "Auffüllen / Refill / Remplissage",
+          "name": { "de": "Auffüllen", "en": "Refill", "fr": "Remplissage", "es": "Relleno", "it": "Refill", "nl": "Opvullen", "pt": "Manutenção", "tr": "Dolgu", "el": "Συμπλήρωμα", "pl": "Uzupełnienie", "cs": "Doplnění" },
           "durationMin": 90,
           "priceEur": 40,
           "description": {
             "de": "Auffrischung für ein frisches, volles und gepflegtes Aussehen.",
             "en": "A touch-up that keeps your lashes fresh, full and beautifully maintained.",
-            "fr": "Un entretien qui garde vos cils frais, pleins et parfaitement soignés."
+            "fr": "Un entretien qui garde vos cils frais, pleins et parfaitement soignés.",
+            "es": "Un retoque que mantiene tus pestañas frescas, densas y bien cuidadas.",
+            "it": "Un ritocco che mantiene le ciglia fresche, piene e curate.",
+            "nl": "Een opfrisbeurt voor een fris, vol en verzorgd resultaat.",
+            "pt": "Uma manutenção que mantém as pestanas frescas, cheias e bem cuidadas.",
+            "tr": "Kirpiklerini taze, dolgun ve bakımlı tutan bir yenileme.",
+            "el": "Ανανέωση για φρέσκες, γεμάτες και περιποιημένες βλεφαρίδες.",
+            "pl": "Odświeżenie dla świeżego, pełnego i zadbanego wyglądu.",
+            "cs": "Osvěžení pro svěží, plný a upravený vzhled."
           }
         },
         {
           "id": "hybrid",
-          "name": "Hybrid / Mixte",
+          "name": { "de": "Hybrid", "fr": "Mixte", "es": "Híbrido", "it": "Ibrido", "pt": "Híbrido", "tr": "Hibrit" },
           "durationMin": 150,
           "priceEur": 55,
           "description": {
             "de": "Ein ausgewogener Mix aus Klassik und Volumen für einen definierten, aber weichen Look.",
             "en": "A balanced blend of classic and volume for a soft yet defined look.",
-            "fr": "Un équilibre parfait entre classique et volume pour un regard doux mais structuré."
+            "fr": "Un équilibre parfait entre classique et volume pour un regard doux mais structuré.",
+            "es": "Una mezcla equilibrada de clásico y volumen para un look suave pero definido.",
+            "it": "Un mix equilibrato di classico e volume per un look morbido ma definito.",
+            "nl": "Een evenwichtige mix van classic en volume voor een zachte maar gedefinieerde look.",
+            "pt": "Uma mistura equilibrada de clássico e volume para um look suave mas definido.",
+            "tr": "Yumuşak ama belirgin bir görünüm için klasik ve hacmin dengeli karışımı.",
+            "el": "Ένας ισορροπημένος συνδυασμός classic και volume για απαλό αλλά καθαρό αποτέλεσμα.",
+            "pl": "Zrównoważone połączenie metody klasycznej i objętościowej dla miękkiego, a zarazem wyrazistego efektu.",
+            "cs": "Vyvážená kombinace klasiky a objemu pro jemný, a přesto výrazný vzhled."
           }
         },
         {
           "id": "russian-volume-3d-5d",
-          "name": "Russian Volume / Volume Russe (3D–5D)",
+          "name": { "de": "Russian Volume (3D–5D)", "fr": "Volume russe (3D–5D)" },
           "durationMin": 150,
           "priceEur": 65,
           "description": {
             "de": "Feine, gleichmäßige Wimpern für ein volleres und glamouröses Ergebnis.",
             "en": "Soft, even lashes that create a fuller and more glamorous effect.",
-            "fr": "Des cils légers et réguliers pour un rendu plus dense, intense et glamour."
+            "fr": "Des cils légers et réguliers pour un rendu plus dense, intense et glamour.",
+            "es": "Pestañas finas y uniformes para un resultado más denso y glamuroso.",
+            "it": "Ciglia sottili e uniformi per un effetto più pieno e glamour.",
+            "nl": "Fijne, gelijkmatige wimpers voor een voller en glamoureus resultaat.",
+            "pt": "Pestanas finas e uniformes para um resultado mais cheio e glamoroso.",
+            "tr": "Daha dolgun ve göz alıcı bir sonuç için ince, düzenli kirpikler.",
+            "el": "Λεπτές, ομοιόμορφες βλεφαρίδες για πιο γεμάτο και λαμπερό αποτέλεσμα.",
+            "pl": "Cienkie, równe rzęsy dla pełniejszego i bardziej efektownego efektu.",
+            "cs": "Jemné, pravidelné řasy pro plnější a okouzlující výsledek."
           }
         },
         {
           "id": "classic-wet-set",
-          "name": "Classic Wet Set",
+          "name": { "de": "Classic Wet Set" },
           "durationMin": 150,
           "priceEur": 55,
           "description": {
             "de": "Klassische Wimpern mit einem dezenten Wet-Look-Effekt.",
             "en": "Classic lashes styled with a subtle wet-look effect.",
-            "fr": "Cils classiques travaillés avec un effet wet-look subtil."
+            "fr": "Cils classiques travaillés avec un effet wet-look subtil.",
+            "es": "Pestañas clásicas con un sutil efecto wet look.",
+            "it": "Ciglia classiche con un delicato effetto wet look.",
+            "nl": "Klassieke wimpers met een subtiel wet-look-effect.",
+            "pt": "Pestanas clássicas com um subtil efeito wet look.",
+            "tr": "Hafif ıslak görünüm efektli klasik kirpikler.",
+            "el": "Κλασικές βλεφαρίδες με διακριτικό wet-look εφέ.",
+            "pl": "Klasyczne rzęsy z delikatnym efektem wet look.",
+            "cs": "Klasické řasy s jemným efektem wet look."
           }
         },
         {
           "id": "russian-volume-6d-plus",
-          "name": "Russian Volume / Volume Russe (6D+)",
+          "name": { "de": "Russian Volume (6D+)", "fr": "Volume russe (6D+)" },
           "durationMin": 150,
           "priceEur": 70,
           "description": {
             "de": "Intensiver Volumen-Look mit extra Dichte für einen ausdrucksstarken Effekt.",
             "en": "An intense volume set with extra density for a bold, dramatic look.",
-            "fr": "Volume intense avec une densité renforcée pour un regard très marqué."
+            "fr": "Volume intense avec une densité renforcée pour un regard très marqué.",
+            "es": "Un volumen intenso con densidad extra para un efecto llamativo.",
+            "it": "Volume intenso con densità extra per un effetto deciso.",
+            "nl": "Een intense volumelook met extra dichtheid voor een expressief effect.",
+            "pt": "Um volume intenso com densidade extra para um efeito marcante.",
+            "tr": "Etkileyici bir sonuç için ekstra yoğunluklu, yoğun hacimli görünüm.",
+            "el": "Έντονο volume με επιπλέον πυκνότητα για εκφραστικό αποτέλεσμα.",
+            "pl": "Intensywna objętość z dodatkową gęstością dla wyrazistego efektu.",
+            "cs": "Intenzivní objem s extra hustotou pro výrazný efekt."
           }
         },
         {
           "id": "mega-volume",
-          "name": "Mega Volume (Dramatic / Extra Full)",
+          "name": { "de": "Mega Volume (Dramatic / Extra Full)", "fr": "Méga volume (dramatique / extra fourni)" },
           "durationMin": 195,
           "priceEur": 80,
           "description": {
             "de": "Sehr dichter und intensiver Look für einen ultra glamourösen Augenaufschlag. Perfekt für einen dramatischen und eleganten Style.",
             "en": "Very dense and intense look for an ultra glamorous effect. Perfect for a dramatic and sophisticated style.",
-            "fr": "Effet très dense et intense pour un regard ultra glamour. Parfait pour un look dramatique et sophistiqué ✨"
+            "fr": "Effet très dense et intense pour un regard ultra glamour. Parfait pour un look dramatique et sophistiqué ✨",
+            "es": "Un look muy denso e intenso para una mirada ultra glamurosa. Perfecto para un estilo dramático y elegante.",
+            "it": "Un look molto denso e intenso per uno sguardo ultra glamour. Perfetto per uno stile drammatico ed elegante.",
+            "nl": "Een zeer dichte, intense look voor een ultraglamoureuze oogopslag. Perfect voor een dramatische en elegante stijl.",
+            "pt": "Um look muito denso e intenso para um olhar ultra glamoroso. Perfeito para um estilo dramático e elegante.",
+            "tr": "Son derece göz alıcı bakışlar için çok yoğun ve dolgun bir görünüm. Dramatik ve şık bir stil için ideal.",
+            "el": "Πολύ πυκνό και έντονο look για εξαιρετικά λαμπερό βλέμμα. Ιδανικό για δραματικό και κομψό στιλ.",
+            "pl": "Bardzo gęsty i intensywny efekt dla niezwykle efektownego spojrzenia. Idealny do dramatycznego i eleganckiego stylu.",
+            "cs": "Velmi hustý a intenzivní vzhled pro okouzlující pohled. Ideální pro dramatický a elegantní styl."
           }
         },
         {
           "id": "mega-volume-refill",
-          "name": "Mega Volumen Auffüllen",
+          "name": { "de": "Mega Volumen Auffüllen", "en": "Mega Volume Refill", "fr": "Remplissage méga volume", "es": "Relleno mega volumen", "it": "Refill mega volume", "nl": "Mega volume opvullen", "pt": "Manutenção mega volume", "tr": "Mega Volume dolgu", "el": "Συμπλήρωμα Mega Volume", "pl": "Uzupełnienie mega objętości", "cs": "Doplnění mega objemu" },
           "durationMin": 120,
           "priceEur": 50
         },
         {
           "id": "removal-other-salon",
-          "name": "Entfernung von Fremdarbeit (ohne Neuset)",
+          "name": {
+            "de": "Entfernung von Fremdarbeit (ohne Neuset)",
+            "en": "Removal of another salon's lashes (no new set)",
+            "fr": "Dépose d'extensions d'un autre salon (sans nouvelle pose)",
+            "es": "Retirada de extensiones de otro salón (sin nuevo set)",
+            "it": "Rimozione di extension di un altro salone (senza nuovo set)",
+            "nl": "Verwijderen van extensions van een andere salon (zonder nieuwe set)",
+            "pt": "Remoção de extensões de outro salão (sem nova aplicação)",
+            "tr": "Başka salonun kirpiklerini çıkarma (yeni set olmadan)",
+            "el": "Αφαίρεση βλεφαρίδων άλλου σαλονιού (χωρίς νέο σετ)",
+            "pl": "Zdjęcie rzęs z innego salonu (bez nowej aplikacji)",
+            "cs": "Odstranění řas z jiného salonu (bez nové sady)"
+          },
           "durationMin": 30,
           "priceEur": 10,
           "description": {
-            "de": "Die Entfernung von Fremdarbeiten kostet 10 €, wenn keine neue Wimpernverlängerung gemacht wird. Bei einem Neuset am selben Tag ist die Entfernung kostenlos."
+            "de": "Die Entfernung von Fremdarbeiten kostet 10 €, wenn keine neue Wimpernverlängerung gemacht wird. Bei einem Neuset am selben Tag ist die Entfernung kostenlos.",
+            "en": "Removing another salon's work costs €10 if no new extensions are applied. With a new set on the same day, removal is free.",
+            "fr": "La dépose du travail d'un autre salon coûte 10 € sans nouvelle pose. Avec une nouvelle pose le même jour, la dépose est gratuite.",
+            "es": "Retirar el trabajo de otro salón cuesta 10 € si no se hace un nuevo set. Con un nuevo set el mismo día, la retirada es gratis.",
+            "it": "La rimozione del lavoro di un altro salone costa 10 € se non si applica un nuovo set. Con un nuovo set nello stesso giorno, la rimozione è gratuita.",
+            "nl": "Het verwijderen van werk van een andere salon kost € 10 als er geen nieuwe set wordt gezet. Met een nieuwe set op dezelfde dag is het verwijderen gratis.",
+            "pt": "A remoção do trabalho de outro salão custa 10 € se não for feita uma nova aplicação. Com uma nova aplicação no mesmo dia, a remoção é gratuita.",
+            "tr": "Yeni set yapılmazsa başka salonun işini çıkarmak 10 €'dur. Aynı gün yeni set yapılırsa çıkarma ücretsizdir.",
+            "el": "Η αφαίρεση δουλειάς άλλου σαλονιού κοστίζει 10 € χωρίς νέο σετ. Με νέο σετ την ίδια μέρα, η αφαίρεση είναι δωρεάν.",
+            "pl": "Zdjęcie pracy innego salonu kosztuje 10 €, jeśli nie wykonujemy nowej aplikacji. Przy nowej aplikacji tego samego dnia zdjęcie jest bezpłatne.",
+            "cs": "Odstranění práce jiného salonu stojí 10 €, pokud se nedělá nová sada. S novou sadou ve stejný den je odstranění zdarma."
           }
         }
       ]
     },
     {
       "id": "lifting-brows",
-      "name": { "de": "Lifting & Brows", "en": "Lifting & Brows", "fr": "Lifting & sourcils" },
+      "name": { "de": "Lifting & Brows", "en": "Lifting & Brows", "fr": "Lifting & sourcils", "es": "Lifting y cejas", "it": "Lifting e sopracciglia", "nl": "Lifting & wenkbrauwen", "pt": "Lifting e sobrancelhas", "tr": "Lifting & kaşlar", "el": "Lifting & φρύδια", "pl": "Lifting i brwi", "cs": "Lifting a obočí" },
       "services": [
         {
           "id": "lash-lifting",
-          "name": "Lash Lifting",
+          "name": { "de": "Lash Lifting" },
           "durationMin": 60,
           "priceEur": 40,
           "description": {
             "de": "Eine Behandlung, die die natürlichen Wimpern anhebt und optisch verlängert.",
             "en": "A treatment that lifts and enhances natural lashes for a longer, more open look.",
-            "fr": "Un soin qui recourbe et met en valeur les cils naturels pour un regard plus ouvert."
+            "fr": "Un soin qui recourbe et met en valeur les cils naturels pour un regard plus ouvert.",
+            "es": "Un tratamiento que eleva y alarga visualmente las pestañas naturales.",
+            "it": "Un trattamento che solleva e allunga otticamente le ciglia naturali.",
+            "nl": "Een behandeling die je natuurlijke wimpers optilt en optisch verlengt.",
+            "pt": "Um tratamento que levanta e alonga visualmente as pestanas naturais.",
+            "tr": "Doğal kirpikleri kaldıran ve görsel olarak uzatan bir uygulama.",
+            "el": "Θεραπεία που ανασηκώνει και επιμηκύνει οπτικά τις φυσικές βλεφαρίδες.",
+            "pl": "Zabieg, który unosi i optycznie wydłuża naturalne rzęsy.",
+            "cs": "Ošetření, které nadzvedne a opticky prodlouží přirozené řasy."
           }
         },
         {
           "id": "lash-lifting-tint",
-          "name": "Lash Lifting + Tint",
+          "name": { "de": "Lash Lifting + Tint", "fr": "Lash Lifting + teinture", "es": "Lash Lifting + tinte", "it": "Lash Lifting + tinta", "nl": "Lash Lifting + verven", "pt": "Lash Lifting + coloração", "tr": "Lash Lifting + boyama", "el": "Lash Lifting + βαφή", "pl": "Lash Lifting + henna", "cs": "Lash Lifting + barvení" },
           "durationMin": 75,
           "priceEur": 50
         }
@@ -127,95 +213,151 @@
     },
     {
       "id": "skin",
-      "name": { "de": "Hautbehandlungen", "en": "Skin Treatments", "fr": "Soins de la peau" },
+      "name": { "de": "Hautbehandlungen", "en": "Skin Treatments", "fr": "Soins de la peau", "es": "Tratamientos de piel", "it": "Trattamenti viso", "nl": "Huidbehandelingen", "pt": "Tratamentos de pele", "tr": "Cilt bakımları", "el": "Θεραπείες δέρματος", "pl": "Zabiegi na skórę", "cs": "Péče o pleť" },
       "services": [
         {
           "id": "microneedling-1",
-          "name": "Microneedling Gesicht (1 Sitzung)",
+          "name": { "de": "Microneedling Gesicht (1 Sitzung)", "en": "Microneedling face (1 session)", "fr": "Microneedling visage (1 séance)", "es": "Microneedling facial (1 sesión)", "it": "Microneedling viso (1 seduta)", "nl": "Microneedling gezicht (1 behandeling)", "pt": "Microneedling facial (1 sessão)", "tr": "Yüz microneedling (1 seans)", "el": "Microneedling προσώπου (1 συνεδρία)", "pl": "Mikronakłuwanie twarzy (1 zabieg)", "cs": "Microneedling obličeje (1 sezení)" },
           "durationMin": 60,
           "priceEur": 80,
           "description": {
             "de": "Eine Hautbehandlung, die die Kollagenproduktion anregt und Hautstruktur, Teint und Ausstrahlung verbessert. Für optimale Ergebnisse werden mehrere Sitzungen empfohlen.",
             "en": "A skin treatment that stimulates collagen production to improve skin texture, tone and overall radiance. Multiple sessions are recommended for optimal results.",
-            "fr": "Un soin de la peau qui stimule la production de collagène pour améliorer la texture, le teint et l’éclat. Plusieurs séances sont recommandées pour des résultats optimaux."
+            "fr": "Un soin de la peau qui stimule la production de collagène pour améliorer la texture, le teint et l’éclat. Plusieurs séances sont recommandées pour des résultats optimaux.",
+            "es": "Un tratamiento que estimula la producción de colágeno y mejora la textura, el tono y la luminosidad de la piel. Se recomiendan varias sesiones para un resultado óptimo.",
+            "it": "Un trattamento che stimola la produzione di collagene e migliora texture, incarnato e luminosità della pelle. Per risultati ottimali si consigliano più sedute.",
+            "nl": "Een huidbehandeling die de collageenaanmaak stimuleert en de huidstructuur, teint en uitstraling verbetert. Voor het beste resultaat worden meerdere behandelingen aanbevolen.",
+            "pt": "Um tratamento que estimula a produção de colagénio e melhora a textura, o tom e o brilho da pele. Para resultados ideais, recomendam-se várias sessões.",
+            "tr": "Kolajen üretimini uyaran ve cilt dokusunu, tonunu ve ışıltısını iyileştiren bir cilt bakımı. En iyi sonuç için birkaç seans önerilir.",
+            "el": "Θεραπεία που διεγείρει την παραγωγή κολλαγόνου και βελτιώνει την υφή, τον τόνο και τη λάμψη του δέρματος. Για βέλτιστα αποτελέσματα συνιστώνται περισσότερες συνεδρίες.",
+            "pl": "Zabieg pobudzający produkcję kolagenu, który poprawia strukturę, koloryt i blask skóry. Dla najlepszych efektów zaleca się kilka zabiegów.",
+            "cs": "Ošetření, které podporuje tvorbu kolagenu a zlepšuje strukturu, tón a zářivost pleti. Pro nejlepší výsledek se doporučuje více sezení."
           }
         },
         {
           "id": "microneedling-3",
-          "name": "Microneedling – 3er-Kur",
+          "name": { "de": "Microneedling – 3er-Kur", "en": "Microneedling – course of 3", "fr": "Microneedling – cure de 3 séances", "es": "Microneedling – tratamiento de 3 sesiones", "it": "Microneedling – ciclo di 3 sedute", "nl": "Microneedling – kuur van 3 behandelingen", "pt": "Microneedling – tratamento de 3 sessões", "tr": "Microneedling – 3 seanslık kür", "el": "Microneedling – πρόγραμμα 3 συνεδριών", "pl": "Mikronakłuwanie – seria 3 zabiegów", "cs": "Microneedling – kúra 3 sezení" },
           "durationMin": 60,
           "priceEur": 210,
           "sessions": 3,
           "description": {
             "de": "Eine Kur mit 3 Sitzungen zur Verbesserung von Hautstruktur, Teint und Ausstrahlung.",
             "en": "A course of 3 sessions designed to improve skin texture, tone and radiance for optimal results.",
-            "fr": "Une cure de 3 séances pour améliorer la texture, le teint et l’éclat de la peau."
+            "fr": "Une cure de 3 séances pour améliorer la texture, le teint et l’éclat de la peau.",
+            "es": "Un tratamiento de 3 sesiones para mejorar la textura, el tono y la luminosidad de la piel.",
+            "it": "Un ciclo di 3 sedute per migliorare texture, incarnato e luminosità della pelle.",
+            "nl": "Een kuur van 3 behandelingen om huidstructuur, teint en uitstraling te verbeteren.",
+            "pt": "Um tratamento de 3 sessões para melhorar a textura, o tom e o brilho da pele.",
+            "tr": "Cilt dokusunu, tonunu ve ışıltısını iyileştiren 3 seanslık bir kür.",
+            "el": "Πρόγραμμα 3 συνεδριών για βελτίωση της υφής, του τόνου και της λάμψης του δέρματος.",
+            "pl": "Seria 3 zabiegów poprawiająca strukturę, koloryt i blask skóry.",
+            "cs": "Kúra 3 sezení pro zlepšení struktury, tónu a zářivosti pleti."
           }
         },
         {
           "id": "microneedling-4",
-          "name": "Microneedling – 4er-Kur",
+          "name": { "de": "Microneedling – 4er-Kur", "en": "Microneedling – course of 4", "fr": "Microneedling – cure de 4 séances", "es": "Microneedling – tratamiento de 4 sesiones", "it": "Microneedling – ciclo di 4 sedute", "nl": "Microneedling – kuur van 4 behandelingen", "pt": "Microneedling – tratamento de 4 sessões", "tr": "Microneedling – 4 seanslık kür", "el": "Microneedling – πρόγραμμα 4 συνεδριών", "pl": "Mikronakłuwanie – seria 4 zabiegów", "cs": "Microneedling – kúra 4 sezení" },
           "durationMin": 60,
           "priceEur": 260,
           "sessions": 4,
           "description": {
             "de": "Eine Kur mit 4 Sitzungen für intensivere und langanhaltende Hautergebnisse.",
             "en": "A course of 4 sessions recommended for enhanced and long-lasting skin results.",
-            "fr": "Une cure de 4 séances recommandée pour des résultats renforcés et durables."
+            "fr": "Une cure de 4 séances recommandée pour des résultats renforcés et durables.",
+            "es": "Un tratamiento de 4 sesiones para resultados más intensos y duraderos.",
+            "it": "Un ciclo di 4 sedute per risultati più intensi e duraturi.",
+            "nl": "Een kuur van 4 behandelingen voor intensievere en langdurige resultaten.",
+            "pt": "Um tratamento de 4 sessões para resultados mais intensos e duradouros.",
+            "tr": "Daha yoğun ve kalıcı sonuçlar için 4 seanslık bir kür.",
+            "el": "Πρόγραμμα 4 συνεδριών για πιο έντονα και διαρκή αποτελέσματα.",
+            "pl": "Seria 4 zabiegów dla intensywniejszych i trwalszych efektów.",
+            "cs": "Kúra 4 sezení pro intenzivnější a dlouhotrvající výsledky."
           }
         }
       ]
     },
     {
       "id": "nails",
-      "name": { "de": "Nägel", "en": "Nails", "fr": "Ongles" },
+      "name": { "de": "Nägel", "en": "Nails", "fr": "Ongles", "es": "Uñas", "it": "Unghie", "nl": "Nagels", "pt": "Unhas", "tr": "Tırnak", "el": "Νύχια", "pl": "Paznokcie", "cs": "Nehty" },
       "note": {
         "de": "Acryl-Auffüllen bis 4 Wochen. Ab der 5. Woche gilt der Preis einer Neumodellage.",
         "en": "Acrylic refills up to 4 weeks. From week 5 the price of a new set applies.",
-        "fr": "Remplissage acrylique jusqu’à 4 semaines. À partir de la 5e semaine, le prix d’une nouvelle pose s’applique."
+        "fr": "Remplissage acrylique jusqu’à 4 semaines. À partir de la 5e semaine, le prix d’une nouvelle pose s’applique.",
+        "es": "Relleno de acrílico hasta 4 semanas. A partir de la 5.ª semana se aplica el precio de unas uñas nuevas.",
+        "it": "Refill acrilico entro 4 settimane. Dalla 5ª settimana si applica il prezzo di una nuova ricostruzione.",
+        "nl": "Acryl opvullen tot 4 weken. Vanaf week 5 geldt de prijs van een nieuwe set.",
+        "pt": "Manutenção de acrílico até 4 semanas. A partir da 5.ª semana aplica-se o preço de uma nova aplicação.",
+        "tr": "Akrilik dolgu 4 haftaya kadar. 5. haftadan itibaren yeni akrilik fiyatı uygulanır.",
+        "el": "Συμπλήρωμα ακρυλικού έως 4 εβδομάδες. Από την 5η εβδομάδα ισχύει η τιμή νέας τοποθέτησης.",
+        "pl": "Uzupełnienie akrylu do 4 tygodni. Od 5. tygodnia obowiązuje cena nowych paznokci.",
+        "cs": "Doplnění akrylu do 4 týdnů. Od 5. týdne platí cena nové modeláže."
       },
       "services": [
         {
           "id": "acrylic-new-set",
-          "name": "Acryl-Neumodellage inkl. Nail Art",
+          "name": { "de": "Acryl-Neumodellage inkl. Nail Art", "en": "New acrylic set incl. nail art", "fr": "Nouvelle pose acrylique avec nail art", "es": "Uñas acrílicas nuevas con nail art", "it": "Ricostruzione in acrilico con nail art", "nl": "Nieuwe set acryl incl. nail art", "pt": "Aplicação de acrílico com nail art", "tr": "Nail art dahil yeni akrilik", "el": "Νέα τοποθέτηση ακρυλικού με nail art", "pl": "Nowe paznokcie akrylowe z nail art", "cs": "Nová modeláž akrylem vč. nail artu" },
           "durationMin": 180,
           "priceEur": 50,
-          "description": { "de": "Individuelle Acrylmodellage – ganz nach Ihren Wünschen." }
+          "description": {
+            "de": "Individuelle Acrylmodellage – ganz nach deinen Wünschen.",
+            "en": "Individual acrylic nails, just the way you want them.",
+            "fr": "Une pose acrylique personnalisée, selon tes envies.",
+            "es": "Uñas acrílicas personalizadas, a tu gusto.",
+            "it": "Ricostruzione in acrilico personalizzata, secondo i tuoi desideri.",
+            "nl": "Individuele acrylnagels, helemaal naar jouw wens.",
+            "pt": "Unhas de acrílico personalizadas, à tua medida.",
+            "tr": "Tamamen isteğine göre kişiye özel akrilik tırnak.",
+            "el": "Εξατομικευμένη τοποθέτηση ακρυλικού, όπως ακριβώς τη θέλεις.",
+            "pl": "Indywidualna stylizacja akrylowa – dokładnie według twoich życzeń.",
+            "cs": "Individuální akrylová modeláž přesně podle tvých přání."
+          }
         },
         {
           "id": "acrylic-refill",
-          "name": "Acryl-Auffüllen",
+          "name": { "de": "Acryl-Auffüllen", "en": "Acrylic refill", "fr": "Remplissage acrylique", "es": "Relleno de acrílico", "it": "Refill acrilico", "nl": "Acryl opvullen", "pt": "Manutenção de acrílico", "tr": "Akrilik dolgu", "el": "Συμπλήρωμα ακρυλικού", "pl": "Uzupełnienie akrylu", "cs": "Doplnění akrylu" },
           "durationMin": 105,
           "priceEur": 35,
-          "description": { "de": "Auffüllen einer bestehenden Acrylmodellage bis 4 Wochen. Ab 5 Wochen gilt der Preis einer Neumodellage." }
+          "description": {
+            "de": "Auffüllen einer bestehenden Acrylmodellage bis 4 Wochen. Ab 5 Wochen gilt der Preis einer Neumodellage.",
+            "en": "Refill of existing acrylic nails up to 4 weeks. From 5 weeks, the price of a new set applies.",
+            "fr": "Remplissage d'une pose acrylique existante jusqu'à 4 semaines. À partir de 5 semaines, le prix d'une nouvelle pose s'applique.",
+            "es": "Relleno de uñas acrílicas existentes hasta 4 semanas. A partir de 5 semanas se aplica el precio de unas uñas nuevas.",
+            "it": "Refill di una ricostruzione in acrilico esistente entro 4 settimane. Da 5 settimane si applica il prezzo di una nuova ricostruzione.",
+            "nl": "Opvullen van bestaande acrylnagels tot 4 weken. Vanaf 5 weken geldt de prijs van een nieuwe set.",
+            "pt": "Manutenção de unhas de acrílico até 4 semanas. A partir de 5 semanas aplica-se o preço de uma nova aplicação.",
+            "tr": "Mevcut akrilik tırnakların 4 haftaya kadar dolgusu. 5 haftadan itibaren yeni akrilik fiyatı uygulanır.",
+            "el": "Συμπλήρωμα υπάρχοντος ακρυλικού έως 4 εβδομάδες. Από 5 εβδομάδες ισχύει η τιμή νέας τοποθέτησης.",
+            "pl": "Uzupełnienie istniejącej stylizacji akrylowej do 4 tygodni. Od 5 tygodni obowiązuje cena nowych paznokci.",
+            "cs": "Doplnění stávající akrylové modeláže do 4 týdnů. Od 5 týdnů platí cena nové modeláže."
+          }
         },
         {
           "id": "acrylic-refill-other-salon",
-          "name": "Acryl-Auffüllen von Fremdarbeit",
+          "name": { "de": "Acryl-Auffüllen von Fremdarbeit", "en": "Acrylic refill (another salon's work)", "fr": "Remplissage acrylique (travail d'un autre salon)", "es": "Relleno de acrílico (trabajo de otro salón)", "it": "Refill acrilico (lavoro di un altro salone)", "nl": "Acryl opvullen (werk van een andere salon)", "pt": "Manutenção de acrílico (trabalho de outro salão)", "tr": "Akrilik dolgu (başka salonun işi)", "el": "Συμπλήρωμα ακρυλικού (δουλειά άλλου σαλονιού)", "pl": "Uzupełnienie akrylu (praca innego salonu)", "cs": "Doplnění akrylu (práce jiného salonu)" },
           "durationMin": 105,
           "priceEur": 40
         },
         {
           "id": "gel-polish",
-          "name": "Permanentlack",
+          "name": { "de": "Permanentlack", "en": "Gel polish", "fr": "Vernis semi-permanent", "es": "Esmaltado semipermanente", "it": "Smalto semipermanente", "nl": "Gellak", "pt": "Verniz gel", "tr": "Kalıcı oje", "el": "Ημιμόνιμο βερνίκι", "pl": "Lakier hybrydowy", "cs": "Gel lak" },
           "durationMin": 60,
           "priceEur": 30
         },
         {
           "id": "acrylic-removal-own",
-          "name": "Acryl-Entfernung (Eigenarbeit)",
+          "name": { "de": "Acryl-Entfernung (Eigenarbeit)", "en": "Acrylic removal (my own work)", "fr": "Dépose acrylique (mon travail)", "es": "Retirada de acrílico (trabajo propio)", "it": "Rimozione acrilico (mio lavoro)", "nl": "Acryl verwijderen (eigen werk)", "pt": "Remoção de acrílico (trabalho próprio)", "tr": "Akrilik çıkarma (kendi işim)", "el": "Αφαίρεση ακρυλικού (δική μου δουλειά)", "pl": "Zdjęcie akrylu (moja praca)", "cs": "Odstranění akrylu (moje práce)" },
           "durationMin": 45,
           "priceEur": 10
         },
         {
           "id": "acrylic-removal-other-salon",
-          "name": "Acryl-Entfernung (Fremdarbeit)",
+          "name": { "de": "Acryl-Entfernung (Fremdarbeit)", "en": "Acrylic removal (another salon's work)", "fr": "Dépose acrylique (travail d'un autre salon)", "es": "Retirada de acrílico (trabajo de otro salón)", "it": "Rimozione acrilico (lavoro di un altro salone)", "nl": "Acryl verwijderen (werk van een andere salon)", "pt": "Remoção de acrílico (trabalho de outro salão)", "tr": "Akrilik çıkarma (başka salonun işi)", "el": "Αφαίρεση ακρυλικού (δουλειά άλλου σαλονιού)", "pl": "Zdjęcie akrylu (praca innego salonu)", "cs": "Odstranění akrylu (práce jiného salonu)" },
           "durationMin": 45,
           "priceEur": 20
         },
         {
           "id": "acrylic-removal-new-set",
-          "name": "Acryl-Entfernung + Neumodellage inkl. Nail Art",
+          "name": { "de": "Acryl-Entfernung + Neumodellage inkl. Nail Art", "en": "Acrylic removal + new set incl. nail art", "fr": "Dépose acrylique + nouvelle pose avec nail art", "es": "Retirada de acrílico + uñas nuevas con nail art", "it": "Rimozione acrilico + nuova ricostruzione con nail art", "nl": "Acryl verwijderen + nieuwe set incl. nail art", "pt": "Remoção de acrílico + nova aplicação com nail art", "tr": "Akrilik çıkarma + nail art dahil yeni akrilik", "el": "Αφαίρεση ακρυλικού + νέα τοποθέτηση με nail art", "pl": "Zdjęcie akrylu + nowe paznokcie z nail art", "cs": "Odstranění akrylu + nová modeláž vč. nail artu" },
           "durationMin": 210,
           "priceEur": 60
         }

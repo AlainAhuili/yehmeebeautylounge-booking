@@ -1,0 +1,19 @@
+{
+  "name": "yehmeebeautylounge-booking",
+  "version": "0.1.0",
+  "description": "Online booking for YehMee Beauty Lounge, Delmenhorst",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
