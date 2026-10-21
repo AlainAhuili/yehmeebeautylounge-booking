@@ -7,7 +7,7 @@
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { hashPassword } from '../src/auth.js';
-import { Store } from '../src/store.js';
+import { openStore } from '../src/store.js';
 
 const [email, name = 'Admin'] = process.argv.slice(2);
 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -15,8 +15,9 @@ if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
   process.exit(1);
 }
 
+try { process.loadEnvFile(fileURLToPath(new URL('../.env', import.meta.url))); } catch (err) { if (err.code !== 'ENOENT') throw err; }
 const file = process.env.DATA_FILE || fileURLToPath(new URL('../data/db.json', import.meta.url));
-const store = new Store(file);
+const store = await openStore({ databaseUrl: process.env.DATABASE_URL, file });
 const address = email.trim().toLowerCase();
 const existing = store.data.users.find((u) => u.email === address);
 
@@ -37,3 +38,4 @@ if (existing) {
   console.log(`Admin account created for ${address}.`);
   console.log(`Password (shown only once): ${password}`);
 }
+await store.close();

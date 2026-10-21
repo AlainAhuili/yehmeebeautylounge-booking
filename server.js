@@ -4,13 +4,16 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createApp } from './src/app.js';
-import { Store } from './src/store.js';
+import { openStore } from './src/store.js';
 
-const PORT = Number(process.env.PORT) || 3000;
 const root = (path) => fileURLToPath(new URL(path, import.meta.url));
 const readJson = (path) => JSON.parse(readFileSync(root(path), 'utf8'));
 
-const store = new Store(process.env.DATA_FILE || root('./data/db.json'));
+// Local settings such as DATABASE_URL (see .env.example); real environment variables win
+try { process.loadEnvFile(root('./.env')); } catch (err) { if (err.code !== 'ENOENT') throw err; }
+
+const PORT = Number(process.env.PORT) || 3000;
+const store = await openStore({ databaseUrl: process.env.DATABASE_URL, file: process.env.DATA_FILE || root('./data/db.json') });
 const isProduction = process.env.NODE_ENV === 'production';
 
 // A test voucher so the "gift voucher" path can be tried during development.
@@ -39,7 +42,13 @@ site.use(express.static(root('./public'), { extensions: ['html'] }));
 // Everything else, including /admin for non-admins: the same "not found" page
 site.use((req, res) => res.status(404).sendFile(root('./public/404.html')));
 
-site.listen(PORT, () => {
+const server = site.listen(PORT, () => {
   console.log(`YehMee booking running at http://localhost:${PORT}`);
+  console.log(`Data: ${process.env.DATABASE_URL ? 'MariaDB' : 'JSON file'}`);
   console.log('Emails are printed here during development.');
 });
+
+// Ctrl+C: finish the last database writes before stopping
+const stop = () => server.close(() => store.close().finally(() => process.exit(0)));
+process.on('SIGINT', stop);
+process.on('SIGTERM', stop);
