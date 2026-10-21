@@ -11,6 +11,7 @@
         {
           "id": "classic-1-1",
           "name": { "de": "Classic 1:1" },
+          "defaultImage": "/images/gallery/lashes/lashes-05.jpg",
           "durationMin": 150,
           "priceEur": 50,
           "description": {
@@ -30,6 +31,7 @@
         {
           "id": "refill",
           "name": { "de": "Auffüllen", "en": "Refill", "fr": "Remplissage", "es": "Relleno", "it": "Refill", "nl": "Opvullen", "pt": "Manutenção", "tr": "Dolgu", "el": "Συμπλήρωμα", "pl": "Uzupełnienie", "cs": "Doplnění" },
+          "defaultImage": "/images/gallery/lashes/lashes-11.jpg",
           "durationMin": 90,
           "priceEur": 40,
           "description": {
@@ -48,6 +50,7 @@
         },
         {
           "id": "hybrid",
+          "defaultImage": "/images/gallery/lashes/lashes-08.jpg",
           "name": { "de": "Hybrid", "fr": "Mixte", "es": "Híbrido", "it": "Ibrido", "pt": "Híbrido", "tr": "Hibrit" },
           "durationMin": 150,
           "priceEur": 55,
@@ -67,6 +70,7 @@
         },
         {
           "id": "russian-volume-3d-5d",
+          "defaultImage": "/images/gallery/lashes/lashes-10.jpg",
           "name": { "de": "Russian Volume (3D–5D)", "fr": "Volume russe (3D–5D)" },
           "durationMin": 150,
           "priceEur": 65,
@@ -86,6 +90,7 @@
         },
         {
           "id": "classic-wet-set",
+          "defaultImage": "/images/gallery/lashes/lashes-12.jpg",
           "name": { "de": "Classic Wet Set" },
           "durationMin": 150,
           "priceEur": 55,
@@ -105,6 +110,7 @@
         },
         {
           "id": "russian-volume-6d-plus",
+          "defaultImage": "/images/gallery/lashes/lashes-12.jpg",
           "name": { "de": "Russian Volume (6D+)", "fr": "Volume russe (6D+)" },
           "durationMin": 150,
           "priceEur": 70,
@@ -124,6 +130,7 @@
         },
         {
           "id": "mega-volume",
+          "defaultImage": "/images/gallery/lashes/lashes-17.jpg",
           "name": { "de": "Mega Volume (Dramatic / Extra Full)", "fr": "Méga volume (dramatique / extra fourni)" },
           "durationMin": 195,
           "priceEur": 80,
@@ -143,12 +150,14 @@
         },
         {
           "id": "mega-volume-refill",
+          "defaultImage": "/images/gallery/lashes/lashes-13.jpg",
           "name": { "de": "Mega Volumen Auffüllen", "en": "Mega Volume Refill", "fr": "Remplissage méga volume", "es": "Relleno mega volumen", "it": "Refill mega volume", "nl": "Mega volume opvullen", "pt": "Manutenção mega volume", "tr": "Mega Volume dolgu", "el": "Συμπλήρωμα Mega Volume", "pl": "Uzupełnienie mega objętości", "cs": "Doplnění mega objemu" },
           "durationMin": 120,
           "priceEur": 50
         },
         {
           "id": "removal-other-salon",
+          "defaultImage": "/images/gallery/lashes/lashes-15.jpg",
           "name": {
             "de": "Entfernung von Fremdarbeit (ohne Neuset)",
             "en": "Removal of another salon's lashes (no new set)",
@@ -295,6 +304,7 @@
       "services": [
         {
           "id": "acrylic-new-set",
+          "defaultImage": "/images/gallery/nails/nails-01.jpg",
           "name": { "de": "Acryl-Neumodellage inkl. Nail Art", "en": "New acrylic set incl. nail art", "fr": "Nouvelle pose acrylique avec nail art", "es": "Uñas acrílicas nuevas con nail art", "it": "Ricostruzione in acrilico con nail art", "nl": "Nieuwe set acryl incl. nail art", "pt": "Aplicação de acrílico com nail art", "tr": "Nail art dahil yeni akrilik", "el": "Νέα τοποθέτηση ακρυλικού με nail art", "pl": "Nowe paznokcie akrylowe z nail art", "cs": "Nová modeláž akrylem vč. nail artu" },
           "durationMin": 180,
           "priceEur": 50,

@@ -6,13 +6,21 @@ import { el, formatDuration, formatPrice, serviceName } from './lib.js';
 
 const VISIBLE_PER_CATEGORY = 2;
 
+/** Shows (or hides) the service photo at the top of its card. */
+function setPhoto(card, url, alt) {
+  card.querySelector('.service__photo')?.remove();
+  card.classList.toggle('has-photo', Boolean(url));
+  if (url) card.prepend(el('img', { className: 'service__photo', src: url, alt, loading: 'lazy' }));
+}
+
 function serviceCard(service, onPick) {
   const description = tc(service.description);
+  const name = serviceName(service);
   const card = el('article', { className: 'service' });
   card.dataset.id = service.id;
   const pick = el('button', { className: 'service__pick', type: 'button', textContent: t('list.pick') });
   pick.addEventListener('click', () => onPick(service));
-  card.append(el('h4', { textContent: serviceName(service) }), pick);
+  card.append(el('h4', { textContent: name }), pick);
 
   if (description) {
     const desc = el('p', { className: 'service__desc is-clamped', textContent: description });
@@ -29,6 +37,7 @@ function serviceCard(service, onPick) {
     el('span', { className: 'duration', textContent: formatDuration(service.durationMin) }),
     ` · ${formatPrice(service.priceEur)}`,
   ]));
+  setPhoto(card, service.image, name);
   return card;
 }
 

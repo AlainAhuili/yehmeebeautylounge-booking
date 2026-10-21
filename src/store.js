@@ -5,7 +5,7 @@
 import { mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 
-const EMPTY = { users: [], sessions: [], bookings: [], vouchers: [], resets: [] };
+const EMPTY = { users: [], sessions: [], bookings: [], vouchers: [], resets: [], serviceImages: {}, gallery: { uploads: [], hidden: [] } };
 
 export class Store {
   constructor(file) {

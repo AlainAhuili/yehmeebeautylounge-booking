@@ -7,15 +7,19 @@ import { readdirSync, readFileSync } from 'node:fs';
 const pub = new URL('../public/', import.meta.url);
 const de = JSON.parse(readFileSync(new URL('i18n/de.json', pub), 'utf8'));
 
+const adminDir = new URL('../admin/', import.meta.url);
+
 function usedKeys() {
   const keys = new Set();
   const files = [
-    ...readdirSync(pub).filter((f) => f.endsWith('.html')),
+    ...readdirSync(pub).filter((f) => f.endsWith('.html')).map((f) => new URL(f, pub)),
     // i18n.js only contains example keys in its comments
-    ...readdirSync(new URL('js/', pub)).filter((f) => f !== 'i18n.js').map((f) => `js/${f}`),
+    ...readdirSync(new URL('js/', pub)).filter((f) => f !== 'i18n.js').map((f) => new URL(`js/${f}`, pub)),
+    // the private admin page
+    ...readdirSync(adminDir).filter((f) => /\.(html|js)$/.test(f)).map((f) => new URL(f, adminDir)),
   ];
   for (const file of files) {
-    const src = readFileSync(new URL(file, pub), 'utf8');
+    const src = readFileSync(file, 'utf8');
     for (const m of src.matchAll(/data-i18n(?:-html)?="([\w.]+)"/g)) keys.add(m[1]);
     for (const m of src.matchAll(/data-i18n-attr="([^"]+)"/g)) for (const pair of m[1].split(';')) keys.add(pair.split(':')[1].trim());
     for (const m of src.matchAll(/\bt\(\s*'([\w.]+)'/g)) keys.add(m[1]);
@@ -30,8 +34,9 @@ test('every key used in HTML and JavaScript exists', () => {
 });
 
 test('every page title exists', () => {
-  for (const file of readdirSync(pub).filter((f) => f.endsWith('.html'))) {
-    const page = readFileSync(new URL(file, pub), 'utf8').match(/data-page="(\w+)"/)?.[1];
+  const pages = [...readdirSync(pub).filter((f) => f.endsWith('.html')).map((f) => new URL(f, pub)), new URL('index.html', adminDir)];
+  for (const file of pages) {
+    const page = readFileSync(file, 'utf8').match(/data-page="(\w+)"/)?.[1];
     assert.ok(page && `page.${page}` in de, file);
   }
 });

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Admin · YehMee Beauty Lounge</title>
+  <meta name="description" content="" />
+  <link rel="icon" type="image/png" href="/images/brand/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&display=swap" />
+  <link rel="stylesheet" href="/css/app.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body data-page="admin">
+  <div id="site-header"></div>
+
+  <div class="band"><h1 data-i18n="adminPage.title">Fotos verwalten</h1></div>
+  <p class="alert alert--info" id="admin-status" role="status" hidden></p>
+
+  <main class="admin">
+    <p class="admin__intro" data-i18n="adminPage.sub"></p>
+
+    <nav class="admin__tabs" aria-label="Admin">
+      <a href="#galerie" data-i18n="adminPage.gallery">Galerie</a>
+      <a href="#services" data-i18n="adminPage.services">Service-Fotos</a>
+    </nav>
+
+    <section id="galerie" class="admin__block">
+      <h2 data-i18n="adminPage.gallery">Galerie</h2>
+      <p class="muted" data-i18n="adminPage.builtInNote"></p>
+      <div id="gallery-admin"><p data-i18n="common.loading">Wird geladen…</p></div>
+    </section>
+
+    <section id="services" class="admin__block">
+      <h2 data-i18n="adminPage.services">Service-Fotos</h2>
+      <div id="services-admin"><p data-i18n="common.loading">Wird geladen…</p></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/js/layout.js" type="module"></script>
+  <script src="/admin/admin.js" type="module"></script>
+</body>
+</html>

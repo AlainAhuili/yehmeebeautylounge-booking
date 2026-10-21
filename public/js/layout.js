@@ -18,6 +18,7 @@ document.getElementById('site-header').outerHTML = `
         <a href="/"${current('home')} data-i18n="nav.home"></a>
         <a href="/dienstleistungen"${current('services')} data-i18n="nav.services"></a>
         <a href="/galerie"${current('gallery')} data-i18n="nav.gallery"></a>
+        <a href="/admin" id="admin-link"${current('admin')} data-i18n="nav.admin" hidden></a>
         <a href="/login" class="menu__login" id="login-link"${current('login')} data-i18n="nav.login"></a>
         <a href="/buchen" class="btn" data-i18n="nav.book"></a>
       </nav>
@@ -61,4 +62,5 @@ toggle.addEventListener('click', () => {
 export const userPromise = currentUser();
 userPromise.then((user) => {
   if (user) document.getElementById('login-link').textContent = t('nav.account');
+  if (user?.isAdmin) document.getElementById('admin-link').hidden = false;
 });

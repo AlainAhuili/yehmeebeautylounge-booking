@@ -1,6 +1,8 @@
 import { after, before, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createApp } from '../src/app.js';
 import { Store } from '../src/store.js';
 
@@ -14,7 +16,8 @@ let clockTime = new Date('2026-10-19T07:00:00Z');
 const mails = [];
 const store = new Store(null);
 store.data.vouchers.push({ code: 'GIFT-1' });
-const app = createApp({ store, salon, catalog, manifest, clock: () => clockTime, mail: (m) => mails.push(m) });
+const uploadsDir = mkdtempSync(join(tmpdir(), 'yehmee-test-'));
+const app = createApp({ store, salon, catalog, manifest, uploadsDir, clock: () => clockTime, mail: (m) => mails.push(m) });
 
 let server;
 let base;

@@ -1,0 +1,59 @@
+/* Admin page only. Served from the private admin/ folder to admins; builds on the
+   colors and fonts defined in /css/app.css. */
+
+/* Photo upload area */
+.uploader { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.8rem; margin-top: 0.4rem; }
+.uploader__drop {
+  flex: 1 1 260px;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.8rem 1rem;
+  border: 2px dashed #c9b4a1;
+  border-radius: 8px;
+  background: #fbf7f3;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.uploader__drop strong { color: var(--ink); }
+.uploader__drop span { font-size: 0.78rem; color: var(--muted); }
+.uploader__drop:hover, .uploader__drop.is-over { background: var(--sand-soft); border-color: var(--ink); }
+.uploader.is-busy .uploader__drop { opacity: 0.6; cursor: progress; }
+.uploader__status { flex-basis: 100%; margin: 0; min-height: 1.2em; font-size: 0.8rem; color: var(--open); }
+.uploader__status.is-error { color: var(--closed); }
+
+/* Page layout */
+.admin { max-width: 1265px; margin: 0 auto; padding: 2rem 16px 4rem; }
+.admin__intro { text-align: center; color: var(--muted); }
+.admin__tabs { display: flex; justify-content: center; gap: 0.6rem; margin: 1rem 0 2rem; }
+.admin__tabs a { padding: 0.45rem 1rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); text-decoration: none; }
+.admin__tabs a:hover { background: var(--sand-soft); }
+.admin__block { scroll-margin-top: 100px; margin-bottom: 3rem; }
+.admin__block > h2 { font-size: 1.7rem; margin-bottom: 0.4rem; }
+.admin .muted { color: var(--muted); font-size: 0.85rem; margin: 0 0 1rem; }
+
+/* Gallery */
+.admin__gallery { margin: 2rem 0; }
+.admin__gallery h3, .admin__block > div > h3 { font-size: 1.25rem; margin: 1.6rem 0 0.6rem; }
+.admin__gallery h3 small { font: 400 0.85rem var(--font-text); color: var(--muted); }
+.admin__grid { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.admin__tile { position: relative; aspect-ratio: 3 / 4; border-radius: 10px; overflow: hidden; background: var(--panel); }
+.admin__tile img { width: 100%; height: 100%; object-fit: cover; }
+.admin__tile.is-hidden img { opacity: 0.3; filter: grayscale(1); }
+.admin__tile.is-hidden .btn--small { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); }
+.admin__delete {
+  position: absolute; top: 6px; right: 6px; width: 30px; height: 30px; border: 0; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6); color: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer;
+}
+.admin__delete:hover, .admin__delete:focus-visible { background: var(--closed); }
+.admin__badge { position: absolute; top: 8px; left: 8px; padding: 1px 8px; border-radius: 999px; background: var(--white); font-size: 0.75rem; }
+
+/* Service photos */
+.admin__services { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.admin__service { display: grid; grid-template-columns: 96px 1fr; gap: 0.3rem 1rem; align-items: center; padding: 0.8rem; border: 1px solid var(--line); border-radius: 8px; }
+.admin__service .uploader { grid-column: 2; margin: 0; }
+.admin__thumb { grid-row: span 2; display: grid; place-items: center; width: 96px; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--panel); color: var(--muted); }
+.admin__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }

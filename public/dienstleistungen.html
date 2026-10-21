@@ -30,18 +30,6 @@
 
   <div id="site-footer"></div>
   <script src="/js/layout.js" type="module"></script>
-  <script type="module">
-    import { t } from '/js/i18n.js';
-    import { api } from '/js/lib.js';
-    import { renderServiceList } from '/js/service-list.js';
-
-    const root = document.getElementById('services');
-    try {
-      const catalog = await api('GET', '/api/services');
-      renderServiceList(root, catalog, { onNext: (service) => { location.href = `/buchen?service=${service.id}`; } });
-    } catch {
-      root.textContent = t('common.loadError');
-    }
-  </script>
+  <script src="/js/services-page.js" type="module"></script>
 </body>
 </html>

@@ -36,13 +36,14 @@ export function readCookie(req, name) {
   return '';
 }
 
-export function setSessionCookie(res, token, remember) {
+/** `maxAgeMs` null: a browser-session cookie that ends when the browser closes. */
+export function setSessionCookie(res, token, maxAgeMs) {
   res.cookie(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    ...(remember ? { maxAge: REMEMBER_DAYS * 24 * 60 * 60 * 1000 } : {}),
+    ...(maxAgeMs ? { maxAge: maxAgeMs } : {}),
   });
 }
 

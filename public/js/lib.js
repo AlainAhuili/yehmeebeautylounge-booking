@@ -3,12 +3,16 @@
 
 import { lang, locale, t, tc } from './i18n.js';
 
-/** Calls the API and returns the JSON body; throws an Error with a translated message. */
+/**
+ * Calls the API and returns the JSON body; throws an Error with a translated message.
+ * A Blob body (an image) is sent as it is; anything else as JSON.
+ */
 export async function api(method, path, body) {
+  const isBlob = body instanceof Blob;
   const res = await fetch(path, {
     method,
-    headers: body === undefined ? {} : { 'Content-Type': 'application/json' },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    headers: body === undefined ? {} : { 'Content-Type': isBlob ? body.type : 'application/json' },
+    body: body === undefined ? undefined : isBlob ? body : JSON.stringify(body),
     credentials: 'same-origin',
   });
   const data = res.status === 204 ? null : await res.json().catch(() => null);

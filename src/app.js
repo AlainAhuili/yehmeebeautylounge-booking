@@ -2,6 +2,8 @@
 
 import express from 'express';
 import { randomBytes } from 'node:crypto';
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { addDays, dayStatus, localNow, timesForDay, toHHMM, toMinutes } from './availability.js';
 import {
   SESSION_COOKIE, SESSION_DAYS, clearSessionCookie, hashPassword, newToken, readCookie,
@@ -12,6 +14,8 @@ import {
 // The German text is only a fallback for API users.
 const MESSAGES = {
   unauthorized: 'Bitte melde dich an.',
+  forbidden: 'Dafür brauchst du ein Admin-Konto.',
+  invalid_image: 'Bitte lade ein JPG-, PNG- oder WebP-Bild hoch.',
   unknown_service: 'Diesen Service gibt es nicht.',
   invalid_date: 'Datum ist ungültig.',
   invalid_datetime: 'Datum oder Uhrzeit ist ungültig.',
@@ -58,8 +62,16 @@ function text(value, field, { min = 1, max = 200 } = {}) {
 }
 
 function publicUser(u) {
-  return { id: u.id, name: u.name, email: u.email, phone: u.phone };
+  return { id: u.id, name: u.name, email: u.email, phone: u.phone, isAdmin: u.role === 'admin' };
 }
+
+// Uploaded images are recognised by their first bytes, not by name or Content-Type.
+const IMAGE_TYPES = [
+  { ext: 'jpg', test: (b) => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff },
+  { ext: 'png', test: (b) => b.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) },
+  { ext: 'webp', test: (b) => b.toString('ascii', 0, 4) === 'RIFF' && b.toString('ascii', 8, 12) === 'WEBP' },
+];
+export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
 /** Minutes from `now` until a local date and minute-of-day. */
 function minutesUntil(date, minutes, now) {
@@ -73,12 +85,54 @@ function minutesUntil(date, minutes, now) {
  * @param {object} deps.salon     content/salon.json
  * @param {object} deps.catalog   content/services.json
  * @param {Array}  deps.manifest  public/images/manifest.json
+ * @param {string} deps.uploadsDir  folder for uploaded service photos (served at /media)
+ * @param {string} [deps.adminDir]  private folder with the admin page (served at /admin to admins only)
  * @param {() => Date} [deps.clock]
  * @param {(msg: string) => void} [deps.mail]  sends an email (prints it during development)
  */
-export function createApp({ store, salon, catalog, manifest, clock = () => new Date(), mail = console.log }) {
+export function createApp({ store, salon, catalog, manifest, uploadsDir, adminDir, clock = () => new Date(), mail = console.log }) {
   const app = express();
   app.disable('x-powered-by');
+
+  // Security headers for every response, pages and API alike
+  app.use((req, res, next) => {
+    res.set({
+      // Only our own scripts run; styles and fonts from Google Fonts; the map frame from Google
+      'Content-Security-Policy': [
+        "default-src 'self'",
+        "script-src 'self'",
+        "style-src 'self' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com",
+        "img-src 'self' data:",
+        "connect-src 'self'",
+        'frame-src https://maps.google.com https://www.google.com',
+        "frame-ancestors 'none'",
+        "base-uri 'self'",
+        "form-action 'self'",
+        "object-src 'none'",
+      ].join('; '),
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+      'Cross-Origin-Opener-Policy': 'same-origin',
+    });
+    next();
+  });
+
+  // Changes (POST/PUT/DELETE) must come from our own pages. Browsers send an Origin
+  // header with such requests; one from another website is refused.
+  app.use('/api', (req, res, next) => {
+    if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
+    const origin = req.get('Origin');
+    if (origin) {
+      let host = '';
+      try { host = new URL(origin).host; } catch { /* malformed: refused below */ }
+      if (host !== req.get('Host')) return sendError(res, 403, 'forbidden');
+    }
+    next();
+  });
+
   app.use(express.json({ limit: '10kb' }));
 
   const services = new Map(catalog.categories.flatMap((c) => c.services.map((s) => [s.id, { ...s, category: c.id }])));
@@ -112,19 +166,144 @@ export function createApp({ store, salon, catalog, manifest, clock = () => new D
   });
 
   const requireUser = (req, res, next) => (req.user ? next() : next(new HttpError(401, 'unauthorized')));
+  // The admin area is invisible to everyone else: its pages and its API answer
+  // "not found", exactly like an address that does not exist.
+  const isAdmin = (req) => req.user?.role === 'admin';
+  const requireAdmin = (req, res, next) => (isAdmin(req) ? next() : next(new HttpError(404, 'not_found')));
+
+  if (adminDir) {
+    const adminFiles = express.static(adminDir, { index: 'index.html', redirect: false });
+    app.use('/admin', (req, res, next) => {
+      if (!isAdmin(req)) return next(); // on to the site's normal 404
+      res.set({ 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' });
+      if (req.path === '/' || req.path === '/index.html') return res.sendFile(join(adminDir, 'index.html'));
+      return adminFiles(req, res, next);
+    });
+  }
 
   // ---- Salon data -----------------------------------------------------------
 
   app.get('/api/salon', (req, res) => res.json(salon));
-  app.get('/api/services', (req, res) => res.json(catalog));
 
+  // The catalog plus each service's photo: the admin's upload, otherwise the
+  // default photo from services.json (imageIsDefault tells the pages which one)
+  function withImage(s) {
+    const uploaded = store.data.serviceImages[s.id];
+    if (uploaded) return { ...s, image: `/media/services/${uploaded.file}`, imageIsDefault: false };
+    if (s.defaultImage) return { ...s, image: s.defaultImage, imageIsDefault: true };
+    return s;
+  }
+
+  app.get('/api/services', (req, res) => {
+    res.json({ ...catalog, categories: catalog.categories.map((c) => ({ ...c, services: c.services.map(withImage) })) });
+  });
+
+  // ---- Service photos (admin) -----------------------------------------------
+
+  const servicePhotos = join(uploadsDir, 'services');
+  mkdirSync(servicePhotos, { recursive: true });
+  app.use('/media/services', express.static(servicePhotos, { maxAge: '7d', immutable: true, index: false }));
+
+  function removePhoto(serviceId) {
+    const old = store.data.serviceImages[serviceId];
+    if (old) rmSync(join(servicePhotos, old.file), { force: true });
+  }
+
+  const rawImage = express.raw({ type: () => true, limit: MAX_IMAGE_BYTES });
+
+  /** The uploaded image and its file extension, or an invalid_image error. */
+  function imageFrom(req) {
+    const body = Buffer.isBuffer(req.body) ? req.body : Buffer.alloc(0);
+    const type = IMAGE_TYPES.find((t) => body.length > 12 && t.test(body));
+    if (!type) throw new HttpError(400, 'invalid_image');
+    return { body, ext: type.ext };
+  }
+
+  // A new random name on every upload, so browsers never show an old cached photo
+  const newFileName = (prefix, ext) => `${prefix}-${Date.now().toString(36)}${randomBytes(3).toString('hex')}.${ext}`;
+
+  app.put(
+    '/api/admin/services/:id/image',
+    requireAdmin,
+    rawImage,
+    (req, res) => {
+      const service = serviceFrom(req.params.id);
+      const { body, ext } = imageFrom(req);
+      const file = newFileName(service.id, ext);
+      writeFileSync(join(servicePhotos, file), body);
+      removePhoto(service.id);
+      store.change((d) => { d.serviceImages[service.id] = { file, uploadedAt: clock().toISOString(), uploadedBy: req.user.id }; });
+      res.json({ image: `/media/services/${file}` });
+    },
+  );
+
+  app.delete('/api/admin/services/:id/image', requireAdmin, (req, res) => {
+    const service = serviceFrom(req.params.id);
+    removePhoto(service.id);
+    store.change((d) => { delete d.serviceImages[service.id]; });
+    res.status(204).end();
+  });
+
+  // ---- Gallery -----------------------------------------------------------------
+  // Built-in photos come from the project (manifest.json); deleting one only hides
+  // it, because a new deployment would bring the file back. Uploaded photos live in
+  // the uploads folder and are really deleted. Newest uploads come first.
+
+  const GALLERY_SECTIONS = ['featured', 'nails', 'lashes'];
+  const galleryPhotos = join(uploadsDir, 'gallery');
+  mkdirSync(galleryPhotos, { recursive: true });
+  app.use('/media/gallery', express.static(galleryPhotos, { maxAge: '7d', immutable: true, index: false }));
+
+  const builtIn = manifest
+    .filter((m) => m.group.startsWith('gallery/'))
+    .map((m) => ({ id: `b-${m.file.split('/').pop().replace(/\.\w+$/, '')}`, section: m.group.slice('gallery/'.length), src: `/${m.file}`, builtIn: true }));
+
+  function galleryItems() {
+    const { uploads, hidden } = store.data.gallery;
+    const uploaded = uploads.map((u) => ({ id: u.id, section: u.section, src: `/media/gallery/${u.file}`, builtIn: false, hidden: false }));
+    return [...uploaded.reverse(), ...builtIn.map((b) => ({ ...b, hidden: hidden.includes(b.id) }))];
+  }
+
+  const bySection = (items) => Object.fromEntries(GALLERY_SECTIONS.map((s) => [s, items.filter((i) => i.section === s)]));
+
+  // Public: visible photos only, as plain addresses
   app.get('/api/gallery', (req, res) => {
-    const groups = {};
-    for (const { file, group } of manifest) {
-      if (!group.startsWith('gallery/')) continue;
-      (groups[group.slice('gallery/'.length)] ??= []).push(`/${file}`);
+    const groups = bySection(galleryItems().filter((i) => !i.hidden));
+    res.json(Object.fromEntries(Object.entries(groups).map(([s, items]) => [s, items.map((i) => i.src)])));
+  });
+
+  // Admin: every photo, including hidden ones, with its id
+  app.get('/api/admin/gallery', requireAdmin, (req, res) => res.json(bySection(galleryItems())));
+
+  app.post('/api/admin/gallery/:section', requireAdmin, rawImage, (req, res) => {
+    const section = req.params.section;
+    if (!GALLERY_SECTIONS.includes(section)) throw new HttpError(404, 'not_found');
+    const { body, ext } = imageFrom(req);
+    const file = newFileName(section, ext);
+    writeFileSync(join(galleryPhotos, file), body);
+    const upload = { id: `g-${randomBytes(6).toString('hex')}`, section, file, uploadedAt: clock().toISOString(), uploadedBy: req.user.id };
+    store.change((d) => d.gallery.uploads.push(upload));
+    res.status(201).json({ photo: { id: upload.id, section, src: `/media/gallery/${file}`, builtIn: false, hidden: false } });
+  });
+
+  app.delete('/api/admin/gallery/:id', requireAdmin, (req, res) => {
+    const { id } = req.params;
+    const upload = store.data.gallery.uploads.find((u) => u.id === id);
+    if (upload) {
+      rmSync(join(galleryPhotos, upload.file), { force: true });
+      store.change((d) => { d.gallery.uploads = d.gallery.uploads.filter((u) => u !== upload); });
+    } else if (builtIn.some((b) => b.id === id)) {
+      store.change((d) => { if (!d.gallery.hidden.includes(id)) d.gallery.hidden.push(id); });
+    } else {
+      throw new HttpError(404, 'not_found');
     }
-    res.json(groups);
+    res.status(204).end();
+  });
+
+  app.post('/api/admin/gallery/:id/restore', requireAdmin, (req, res) => {
+    if (!builtIn.some((b) => b.id === req.params.id)) throw new HttpError(404, 'not_found');
+    store.change((d) => { d.gallery.hidden = d.gallery.hidden.filter((h) => h !== req.params.id); });
+    res.status(204).end();
   });
 
   // ---- Free times ---------------------------------------------------------
@@ -150,14 +329,19 @@ export function createApp({ store, salon, catalog, manifest, clock = () => new D
 
   // ---- Accounts -----------------------------------------------------------
 
+  // Customers stay logged in for 30 days (1 day without "remember me");
+  // admins at most 12 hours, so a forgotten admin login on a shared device expires.
+  const ADMIN_SESSION_MS = 12 * 60 * 60 * 1000;
+
   function startSession(res, user, remember) {
     const token = newToken();
-    const expiresAt = clock().getTime() + (remember ? SESSION_DAYS : 1) * DAY_MS;
+    const lifetime = user.role === 'admin' ? ADMIN_SESSION_MS : (remember ? SESSION_DAYS : 1) * DAY_MS;
+    const expiresAt = clock().getTime() + lifetime;
     store.change((d) => {
       d.sessions = d.sessions.filter((s) => s.expiresAt > clock().getTime());
       d.sessions.push({ tokenHash: tokenHash(token), userId: user.id, expiresAt });
     });
-    setSessionCookie(res, token, remember);
+    setSessionCookie(res, token, remember || user.role === 'admin' ? lifetime : null);
   }
 
   app.post('/api/auth/register', (req, res) => {

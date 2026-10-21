@@ -146,6 +146,9 @@ main { min-height: 50vh; }
 .step--wide { max-width: 1110px; }
 .step__title { text-align: center; font-size: 1.45rem; color: #444; margin-bottom: 0.3rem; }
 .step__sub { text-align: center; margin: 0 0 1rem; color: var(--muted); }
+.step__loading { margin-top: 2rem; }
+.not-found { text-align: center; }
+.not-found__links { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1.5rem; }
 
 .selection { position: sticky; top: 90px; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; padding: 0.8rem 1rem; background: var(--info); border: 1px solid #c3dfee; }
 .selection p { flex: 1 1 12rem; margin: 0; color: #1f4e66; line-height: 1.35; }
@@ -167,6 +170,11 @@ main { min-height: 50vh; }
 .service__meta .duration { font-style: normal; font-variant-numeric: tabular-nums; padding: 1px 8px; border-radius: 999px; background: var(--panel); color: var(--ink); }
 .service__pick { grid-column: 2; grid-row: 1; align-self: start; min-height: 30px; padding: 0 0.7rem; border: 0; border-radius: 4px; background: var(--orange); color: var(--white); font: 400 0.85rem var(--font-text); cursor: pointer; white-space: nowrap; }
 .service.is-selected .service__pick { background: var(--open); }
+
+/* Service photo (uploaded by the admin) */
+.service.has-photo .service__pick { grid-row: 2; }
+/* Most photos are portraits with the eyes in the upper third, so crop above the middle */
+.service__photo { grid-column: 1 / -1; grid-row: 1; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; border-radius: 6px; margin-bottom: 0.4rem; }
 
 /* ---- Booking steps: calendar ------------------------------------------- */
 
