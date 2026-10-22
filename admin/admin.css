@@ -57,3 +57,13 @@
 .admin__service .uploader { grid-column: 2; margin: 0; }
 .admin__thumb { grid-row: span 2; display: grid; place-items: center; width: 96px; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--panel); color: var(--muted); }
 .admin__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+
+/* Gift vouchers */
+.admin__voucher-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 0 0.8rem; margin-bottom: 1.2rem; }
+.admin__voucher-form .field { flex: 1 1 160px; }
+.admin__voucher-form .btn { margin-bottom: 0.7rem; }
+.admin__table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+.admin__table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.admin__table td { padding: 0.55rem 0.8rem; border-top: 1px solid var(--line); white-space: nowrap; }
+.admin__table tr:first-child td { border-top: 0; }
+.admin__table code { font-size: 0.95em; letter-spacing: 0.04em; }

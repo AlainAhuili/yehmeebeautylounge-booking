@@ -46,7 +46,15 @@ test('everything saved comes back exactly the same after a restart', { skip }, a
     d.users.push(user, admin);
     d.sessions.push({ tokenHash: 'a'.repeat(64), userId: 'u_1', expiresAt: 1795129514346 });
     d.resets.push({ tokenHash: 'b'.repeat(64), userId: 'u_1', expiresAt: 1795129514999 });
-    d.vouchers.push({ code: 'GIFT-1', note: 'Geschenk' }, { code: 'GIFT-2' });
+    d.vouchers.push(
+      { code: 'GIFT-1', note: 'Geschenk' },
+      { code: 'GIFT-2' },
+      {
+        code: 'YM-ABCD-2345', amountEur: 50, source: 'online', status: 'active', buyerName: 'Clara', buyerEmail: 'clara@example.com',
+        recipient: 'Mia', message: 'Alles Liebe', purchaseRef: 'f'.repeat(32), paymentRef: 'chk_1',
+        createdAt: '2026-10-20T08:00:00.000Z', paidAt: '2026-10-20T08:01:30.250Z',
+      },
+    );
     d.serviceImages.classic = { file: 'classic-1.jpg', uploadedAt: '2026-10-20T23:10:00.643Z', uploadedBy: 'u_2' };
     d.gallery.uploads.push(
       { id: 'g-1', section: 'nails', file: 'nails-1.jpg', uploadedAt: '2026-10-20T10:00:00.000Z', uploadedBy: 'u_2' },
@@ -59,6 +67,11 @@ test('everything saved comes back exactly the same after a restart', { skip }, a
     d.bookings.push(booking);
     d.vouchers.find((v) => v.code === 'GIFT-1').usedBy = 'b_1';
   });
+  // A card deposit still being paid: reference, reservation end
+  store.change((d) => d.bookings.push({
+    ...booking, id: 'b_2', time: '14:00', start: 840, end: 945, endTime: '15:45', status: 'pending', holdUntil: 1792400000000,
+    payment: { method: 'card', depositEur: 15, ref: 'chk_99' },
+  }));
   await store.close();
 
   const again = await MariaStore.open(url);
@@ -74,6 +87,11 @@ test('changes and removals are saved too', { skip }, async () => {
     b.status = 'cancelled';
     b.cancelledAt = '2026-10-19T08:00:00.000Z';
     b.depositRefunded = false;
+    const paid = d.bookings.find((x) => x.id === 'b_2');
+    paid.status = 'confirmed';
+    paid.payment.paidAt = '2026-10-19T07:20:00.000Z';
+    delete paid.holdUntil;
+    d.bookings.push({ ...paid, id: 'b_3', status: 'cancelled', cancelReason: 'payment_failed', payment: { method: 'paypal', depositEur: 15, ref: 'ORD7' } });
     d.sessions = [];
     d.gallery.hidden = [];
     d.gallery.uploads = d.gallery.uploads.filter((u) => u.id !== 'g-1');

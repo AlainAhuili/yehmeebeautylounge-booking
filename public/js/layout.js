@@ -18,6 +18,7 @@ document.getElementById('site-header').outerHTML = `
         <a href="/"${current('home')} data-i18n="nav.home"></a>
         <a href="/dienstleistungen"${current('services')} data-i18n="nav.services"></a>
         <a href="/galerie"${current('gallery')} data-i18n="nav.gallery"></a>
+        <a href="/gutschein"${current('voucher')} data-i18n="nav.voucher"></a>
         <a href="/admin" id="admin-link"${current('admin')} data-i18n="nav.admin" hidden></a>
         <a href="/login" class="menu__login" id="login-link"${current('login')} data-i18n="nav.login"></a>
         <a href="/buchen" class="btn" data-i18n="nav.book"></a>
@@ -33,6 +34,7 @@ document.getElementById('site-footer').outerHTML = `
         <a href="/" data-i18n="nav.home"></a>
         <a href="/dienstleistungen" data-i18n="nav.services"></a>
         <a href="/galerie" data-i18n="nav.gallery"></a>
+        <a href="/gutschein" data-i18n="nav.voucher"></a>
       </div>
       <div class="footer__bottom">
         <a href="https://yehmeebeautylounge.com/" data-i18n="footer.privacy"></a>

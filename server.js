@@ -4,6 +4,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createApp } from './src/app.js';
+import { paymentsFromEnv } from './src/payments.js';
 import { openStore } from './src/store.js';
 
 const root = (path) => fileURLToPath(new URL(path, import.meta.url));
@@ -22,6 +23,8 @@ if (!isProduction && !store.data.vouchers.length) {
   store.change((d) => d.vouchers.push({ code: 'YEHMEE-TEST', note: 'Testgutschein (Entwicklung)' }));
 }
 
+const payments = paymentsFromEnv();
+
 const app = createApp({
   store,
   salon: readJson('./content/salon.json'),
@@ -31,6 +34,9 @@ const app = createApp({
   uploadsDir: process.env.UPLOADS_DIR || root('./data/uploads'),
   // The admin page lives outside public/, so only the app can hand it out (to admins)
   adminDir: root('./admin'),
+  // SumUp (cards, vouchers) and PayPal; test checkouts while their keys are missing
+  payments,
+  publicUrl: process.env.PUBLIC_URL,
 });
 
 // Pages and photos. "/buchen" etc. also work without ".html".
@@ -45,6 +51,7 @@ site.use((req, res) => res.status(404).sendFile(root('./public/404.html')));
 const server = site.listen(PORT, () => {
   console.log(`YehMee booking running at http://localhost:${PORT}`);
   console.log(`Data: ${process.env.DATABASE_URL ? 'MariaDB' : 'JSON file'}`);
+  console.log(`Payments: ${Object.entries(payments.providers).map(([m, p]) => `${m} ${p.test ? '(test checkout)' : `via ${p.name}`}`).join(', ') || 'none configured'}`);
   console.log('Emails are printed here during development.');
 });
 

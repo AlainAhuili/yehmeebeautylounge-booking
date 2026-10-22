@@ -68,6 +68,7 @@ onSubmit('form-reset', async (data) => {
 let services = new Map();
 
 function statusText(b) {
+  if (b.status === 'pending') return t('booking.pending');
   if (b.status === 'cancelled') return b.depositRefunded ? `${t('booking.cancelled')}, ${t('booking.refund')}` : t('booking.cancelled');
   return b.payment.method === 'voucher' ? t('booking.voucher') : t('booking.depositPaid', { amount: formatPrice(b.payment.depositEur) });
 }
@@ -104,9 +105,9 @@ async function renderAccount(user) {
   const [{ bookings }, catalog] = await Promise.all([api('GET', '/api/bookings/mine'), api('GET', '/api/services')]);
   services = servicesById(catalog);
   const today = new Date().toLocaleDateString('en-CA'); // local YYYY-MM-DD
-  const upcoming = bookings.filter((b) => b.status === 'confirmed' && b.date >= today);
+  const upcoming = bookings.filter((b) => ['confirmed', 'pending'].includes(b.status) && b.date >= today);
   const past = bookings.filter((b) => !upcoming.includes(b)).reverse();
-  document.getElementById('upcoming').replaceChildren(...(upcoming.length ? upcoming.map((b) => appointment(b, true)) : [el('li', { textContent: t('account.noneUpcoming') })]));
+  document.getElementById('upcoming').replaceChildren(...(upcoming.length ? upcoming.map((b) => appointment(b, b.status === 'confirmed')) : [el('li', { textContent: t('account.noneUpcoming') })]));
   document.getElementById('past').replaceChildren(...(past.length ? past.map((b) => appointment(b, false)) : [el('li', { textContent: '–' })]));
 }
 

@@ -25,6 +25,7 @@
     <nav class="admin__tabs" aria-label="Admin">
       <a href="#galerie" data-i18n="adminPage.gallery">Galerie</a>
       <a href="#services" data-i18n="adminPage.services">Service-Fotos</a>
+      <a href="#gutscheine" data-i18n="adminPage.vouchers">Gutscheine</a>
     </nav>
 
     <section id="galerie" class="admin__block">
@@ -36,6 +37,18 @@
     <section id="services" class="admin__block">
       <h2 data-i18n="adminPage.services">Service-Fotos</h2>
       <div id="services-admin"><p data-i18n="common.loading">Wird geladen…</p></div>
+    </section>
+
+    <section id="gutscheine" class="admin__block">
+      <h2 data-i18n="adminPage.vouchers">Gutscheine</h2>
+      <p class="muted" data-i18n="adminPage.vouchersNote"></p>
+      <form id="voucher-form" class="admin__voucher-form" novalidate>
+        <div class="field"><label for="voucher-amount" data-i18n="adminPage.voucherAmount">Betrag in €</label><input class="plain" id="voucher-amount" name="amountEur" type="number" min="1" max="1000" step="0.01" required /></div>
+        <div class="field"><label for="voucher-code" data-i18n="adminPage.voucherCode">Code</label><input class="plain" id="voucher-code" name="code" maxlength="32" autocomplete="off" /></div>
+        <div class="field"><label for="voucher-note" data-i18n="adminPage.voucherNote">Notiz</label><input class="plain" id="voucher-note" name="note" maxlength="200" /></div>
+        <button class="btn" type="submit" data-i18n="adminPage.voucherAdd">Gutschein anlegen</button>
+      </form>
+      <div id="vouchers-admin"><p data-i18n="common.loading">Wird geladen…</p></div>
     </section>
   </main>
 

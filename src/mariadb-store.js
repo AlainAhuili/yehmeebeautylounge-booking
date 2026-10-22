@@ -35,24 +35,41 @@ const TABLES = [
       duration_min: b.durationMin, price_eur: b.priceEur, date: b.date, time: b.time,
       start_min: b.start, end_min: b.end, end_time: b.endTime, note: b.note ?? '',
       payment_method: b.payment.method, voucher_code: b.payment.voucherCode ?? null, deposit_eur: b.payment.depositEur,
+      payment_ref: b.payment.ref ?? null, paid_at: toSql(b.payment.paidAt),
       status: b.status, created_at: toSql(b.createdAt), cancelled_at: toSql(b.cancelledAt),
-      deposit_refunded: b.depositRefunded ?? null,
+      deposit_refunded: b.depositRefunded ?? null, hold_until: b.holdUntil ?? null, cancel_reason: b.cancelReason ?? null,
     })),
     load: (d, rows) => {
       d.bookings = rows.map((r) => compact({
         id: r.id, userId: r.user_id, serviceId: r.service_id, serviceName: r.service_name,
         durationMin: r.duration_min, priceEur: r.price_eur, date: r.date, time: r.time,
         start: r.start_min, end: r.end_min, endTime: r.end_time, note: r.note,
-        payment: compact({ method: r.payment_method, voucherCode: r.voucher_code, depositEur: r.deposit_eur }),
+        payment: compact({
+          method: r.payment_method, voucherCode: r.voucher_code, depositEur: r.deposit_eur,
+          ref: r.payment_ref, paidAt: fromSql(r.paid_at),
+        }),
         status: r.status, createdAt: fromSql(r.created_at), cancelledAt: fromSql(r.cancelled_at),
         depositRefunded: r.deposit_refunded === null ? null : Boolean(r.deposit_refunded),
+        holdUntil: r.hold_until, cancelReason: r.cancel_reason,
       }));
     },
   },
   {
     name: 'vouchers', key: 'code',
-    rows: (d) => d.vouchers.map((v) => ({ code: v.code, note: v.note ?? null, used_by: v.usedBy ?? null })),
-    load: (d, rows) => { d.vouchers = rows.map((r) => compact({ code: r.code, note: r.note, usedBy: r.used_by })); },
+    order: 'created_at',
+    rows: (d) => d.vouchers.map((v) => ({
+      code: v.code, note: v.note ?? null, used_by: v.usedBy ?? null, amount_eur: v.amountEur ?? null,
+      source: v.source ?? null, status: v.status ?? null, buyer_name: v.buyerName ?? null, buyer_email: v.buyerEmail ?? null,
+      recipient: v.recipient ?? null, message: v.message ?? null, purchase_ref: v.purchaseRef ?? null,
+      payment_ref: v.paymentRef ?? null, created_at: toSql(v.createdAt), paid_at: toSql(v.paidAt),
+    })),
+    load: (d, rows) => {
+      d.vouchers = rows.map((r) => compact({
+        code: r.code, note: r.note, usedBy: r.used_by, amountEur: r.amount_eur, source: r.source, status: r.status,
+        buyerName: r.buyer_name, buyerEmail: r.buyer_email, recipient: r.recipient, message: r.message,
+        purchaseRef: r.purchase_ref, paymentRef: r.payment_ref, createdAt: fromSql(r.created_at), paidAt: fromSql(r.paid_at),
+      }));
+    },
   },
   {
     name: 'sessions', key: 'token_hash',

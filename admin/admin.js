@@ -1,5 +1,5 @@
 // Admin page: manage the gallery photos (upload several at once, delete, restore
-// hidden originals) and the photo of every service. The server checks the admin
+// hidden originals), the photo of every service, and gift vouchers. The server checks the admin
 // role on every request; this page only offers the controls.
 
 // Served only to admins from the private admin/ folder (see src/app.js); the shared
@@ -121,6 +121,44 @@ async function loadServices() {
   document.getElementById('services-admin').replaceChildren(...parts);
 }
 
+// ---- Gift vouchers --------------------------------------------------------------
+// Vouchers sold in the salon (SumUp card reader) are entered here so they can be
+// redeemed online; vouchers bought on the website appear by themselves.
+
+const VOUCHER_STATE = { active: 'adminPage.voucherActive', used: 'adminPage.voucherUsed', pending: 'adminPage.voucherPending' };
+const VOUCHER_SOURCE = { online: 'adminPage.voucherOnline', salon: 'adminPage.voucherSalon' };
+const euro = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format;
+
+async function loadVouchers() {
+  const { vouchers } = await api('GET', '/api/admin/vouchers');
+  const box = document.getElementById('vouchers-admin');
+  if (!vouchers.length) { box.replaceChildren(el('p', { textContent: t('adminPage.voucherNone') })); return; }
+  const cell = (text) => el('td', { textContent: text ?? '–' });
+  box.replaceChildren(el('div', { className: 'admin__table-wrap' }, [el('table', { className: 'admin__table' }, [
+    el('tbody', {}, vouchers.map((v) => el('tr', {}, [
+      el('td', {}, [el('code', { textContent: v.code })]),
+      cell(v.amountEur === null ? null : euro(v.amountEur)),
+      cell(t(VOUCHER_SOURCE[v.source] || VOUCHER_SOURCE.salon)),
+      cell(t(VOUCHER_STATE[v.state] || VOUCHER_STATE.active)),
+      cell([v.recipient, v.buyerName, v.note].filter(Boolean).join(' · ') || null),
+      cell(v.createdAt ? new Date(v.createdAt).toLocaleDateString() : null),
+    ]))),
+  ])]));
+}
+
+document.getElementById('voucher-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.currentTarget;
+  try {
+    const { voucher } = await api('POST', '/api/admin/vouchers', {
+      amountEur: Number(form.amountEur.value), code: form.code.value, note: form.note.value,
+    });
+    form.reset();
+    say(t('adminPage.voucherAdded', { code: voucher.code }));
+    await loadVouchers();
+  } catch (err) { say(err.message, 'error'); }
+});
+
 // ---- Start --------------------------------------------------------------------
 
 // The server only sends this page to admins; this check covers a session that
@@ -129,5 +167,5 @@ const user = await userPromise;
 if (!user?.isAdmin) {
   location.replace('/login');
 } else {
-  await Promise.all([loadGallery(), loadServices()]);
+  await Promise.all([loadGallery(), loadServices(), loadVouchers()]);
 }

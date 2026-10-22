@@ -124,24 +124,49 @@ async function renderTime(service, date) {
 }
 
 // ---- Step 4: confirm and pay the deposit ------------------------------------
+// Card (SumUp) and PayPal open the provider's payment page; the server confirms
+// the booking only after the provider has the money. A voucher books at once.
 
-async function renderConfirm(service, date, time, user) {
+const PAYMENT_TEXT = {
+  card: ['pay.card', 'pay.cardHint'],
+  paypal: ['pay.paypal', 'pay.paypalHint'],
+  voucher: ['pay.voucher', 'pay.voucherHint'],
+};
+const RESULT_TEXT = { failed: 'pay.failed', cancelled: 'pay.cancelled', late: 'pay.late' };
+
+async function renderConfirm(service, date, time, user, paymentResult) {
   back.hidden = false;
   back.onclick = () => go({ service: service.id, date });
   main.className = 'step';
   const deposit = salon.booking.depositEur;
   const range = t('time.range', { start: formatTime(time), end: formatTime(endOf(time, service.durationMin)) });
+  const { methods, testMode } = await api('GET', '/api/payments/methods');
 
   const row = (label, value) => el('tr', {}, [el('th', { textContent: t(label) }), el('td', { textContent: value })]);
   const voucherInput = el('input', { className: 'plain', name: 'voucher', placeholder: t('pay.voucherCode'), autocomplete: 'off' });
-  const voucherField = el('div', { className: 'field', hidden: true }, [voucherInput]);
-  const payTest = el('input', { type: 'radio', name: 'payment', value: 'test', checked: true });
-  const payVoucher = el('input', { type: 'radio', name: 'payment', value: 'voucher' });
-  for (const radio of [payTest, payVoucher]) radio.addEventListener('change', () => { voucherField.hidden = !payVoucher.checked; });
+  const voucherField = el('div', { className: 'field', hidden: methods.length > 0 }, [voucherInput]);
+  const radios = [...methods, 'voucher'].map((value, i) => el('input', { type: 'radio', name: 'payment', value, checked: i === 0 }));
+  const chosen = () => radios.find((r) => r.checked).value;
   const note = el('textarea', { id: 'note', name: 'note', maxLength: 500, placeholder: t('confirm.notePlaceholder') });
   const terms = el('input', { type: 'checkbox', required: true });
   const error = el('p', { className: 'form-error', role: 'alert' });
-  const submit = el('button', { className: 'btn btn--blue', type: 'submit', textContent: t('confirm.submit') });
+  const submit = el('button', { className: 'btn btn--blue', type: 'submit' });
+  const update = () => {
+    voucherField.hidden = chosen() !== 'voucher';
+    submit.textContent = t(chosen() === 'voucher' ? 'confirm.submit' : 'confirm.toPayment');
+  };
+  for (const radio of radios) radio.addEventListener('change', update);
+  update();
+
+  const choice = (radio) => {
+    const [label, hint] = PAYMENT_TEXT[radio.value];
+    const online = radio.value !== 'voucher';
+    return el('label', { className: 'choice' }, [radio, el('span', {}, [
+      t(label),
+      ...(online && testMode ? [el('span', { className: 'test-badge', textContent: t('pay.testBadge') })] : []),
+      el('small', { textContent: t(hint) }),
+    ])]);
+  };
 
   const form = el('form', { className: 'card', noValidate: true }, [
     el('table', { className: 'summary' }, [
@@ -156,14 +181,9 @@ async function renderConfirm(service, date, time, user) {
     ]),
     el('fieldset', { className: 'fieldset' }, [
       el('legend', { textContent: t('confirm.deposit', { amount: formatPrice(deposit) }) }),
-      el('label', { className: 'choice' }, [payTest, el('span', {}, [
-        t('pay.test'), el('span', { className: 'test-badge', textContent: t('pay.testBadge') }),
-        el('small', { textContent: t('pay.testHint') }),
-      ])]),
-      el('label', { className: 'choice' }, [payVoucher, el('span', {}, [
-        t('pay.voucher'), el('small', { textContent: t('pay.voucherHint') }),
-      ])]),
+      ...radios.map(choice),
       voucherField,
+      ...(testMode ? [el('p', { className: 'pay-note', textContent: t('pay.testNote') })] : []),
     ]),
     el('div', { className: 'field' }, [el('label', { htmlFor: 'note', textContent: t('confirm.note') }), note]),
     el('label', { className: 'check', id: 'bedingungen' }, [terms, el('span', { textContent: t('confirm.terms') })]),
@@ -175,14 +195,19 @@ async function renderConfirm(service, date, time, user) {
     e.preventDefault();
     error.textContent = '';
     if (!terms.checked) { error.textContent = t('confirm.needTerms'); return; }
-    if (payVoucher.checked && !voucherInput.value.trim()) { error.textContent = t('confirm.needVoucher'); return; }
+    if (chosen() === 'voucher' && !voucherInput.value.trim()) { error.textContent = t('confirm.needVoucher'); return; }
     submit.disabled = true;
     try {
-      const { booking } = await api('POST', '/api/bookings', {
+      const { booking, redirectUrl } = await api('POST', '/api/bookings', {
         serviceId: service.id, date, time, note: note.value,
-        payment: payVoucher.checked ? 'voucher' : 'test',
+        payment: chosen(),
         voucherCode: voucherInput.value,
       });
+      if (redirectUrl) {
+        submit.textContent = t('pay.redirecting');
+        location.href = redirectUrl;
+        return;
+      }
       history.replaceState(null, '', `/buchen?booked=${booking.id}`);
       renderDone(booking, user);
     } catch (err) {
@@ -191,7 +216,12 @@ async function renderConfirm(service, date, time, user) {
     }
   });
 
-  main.replaceChildren(...stepTitle(t('confirm.title')), form);
+  const result = RESULT_TEXT[paymentResult];
+  main.replaceChildren(
+    ...stepTitle(t('confirm.title')),
+    ...(result ? [el('p', { className: 'alert alert--error', role: 'alert', textContent: t(result) })] : []),
+    form,
+  );
 }
 
 // ---- Step 5: done -----------------------------------------------------------
@@ -199,6 +229,16 @@ async function renderConfirm(service, date, time, user) {
 function renderDone(booking, user) {
   back.hidden = true;
   main.className = 'step';
+  if (booking.status === 'pending') {
+    // Back from the payment page before the provider confirmed: ask again on demand
+    main.replaceChildren(el('div', { className: 'card done' }, [
+      el('div', { className: 'done__icon', textContent: '…' }),
+      el('h1', { className: 'step__title', textContent: t('done.pendingTitle') }),
+      el('p', { textContent: t('done.pending') }),
+      el('p', {}, [el('a', { href: `/api/payments/return?kind=booking&ref=${encodeURIComponent(booking.id)}`, className: 'btn', textContent: t('done.checkAgain') })]),
+    ]));
+    return;
+  }
   const service = services.get(booking.serviceId);
   main.replaceChildren(el('div', { className: 'card done' }, [
     el('div', { className: 'done__icon', textContent: '✓' }),
@@ -232,7 +272,7 @@ async function render() {
       location.href = `/login?next=${encodeURIComponent(location.pathname + location.search)}`;
       return;
     }
-    return await renderConfirm(service, date, time, user);
+    return await renderConfirm(service, date, time, user, params.get('payment'));
   } catch (err) {
     main.replaceChildren(el('p', { className: 'alert alert--error', textContent: err.message }));
   }

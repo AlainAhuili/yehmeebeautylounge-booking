@@ -223,6 +223,12 @@ main { min-height: 50vh; }
 .choice { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: 4px; margin-bottom: 0.5rem; cursor: pointer; }
 .choice:has(input:checked) { border-color: var(--blue); background: #f3f8ff; }
 .choice small { display: block; color: var(--muted); }
+.pay-note { margin: 0.3rem 0 0; color: var(--muted); font-size: 0.8rem; }
+/* Gift voucher page */
+.amounts { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.amounts .choice { margin: 0; align-items: center; font-weight: 700; }
+.voucher-intro { margin-bottom: 1.2rem; }
+.voucher-code { display: inline-block; margin: 0.4rem 0 1rem; padding: 0.6rem 1.1rem; border: 2px dashed var(--blue); border-radius: 6px; font: 700 1.35rem/1.2 ui-monospace, Consolas, monospace; letter-spacing: 0.08em; color: var(--ink); user-select: all; }
 .test-badge { display: inline-block; margin-left: 0.3rem; padding: 0 6px; border-radius: 3px; background: var(--warn); color: #7a5b13; font-size: 0.75rem; }
 .check { display: flex; gap: 0.5rem; align-items: flex-start; font-size: 0.85rem; margin: 1rem 0; }
 .done { text-align: center; }

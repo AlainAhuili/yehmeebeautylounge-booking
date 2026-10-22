@@ -10,5 +10,11 @@
   "confirm.needVoucher": "Please enter your gift card code.",
   "error.invalid_voucher": "This gift card is not valid or has already been used.",
   "time.range": "{start} – {end}",
-  "done.tip": "Please arrive on time; for lashes, with clean lashes and no eye makeup."
+  "done.tip": "Please arrive on time; for lashes, with clean lashes and no eye makeup.",
+  "nav.voucher": "Gift card",
+  "page.voucher": "Gift card · YehMee Beauty Lounge",
+  "voucher.title": "Give a gift card",
+  "voucher.code": "Your gift card code:",
+  "voucher.done": "Thank you! Your gift card is paid.",
+  "voucher.another": "Buy another gift card"
 }

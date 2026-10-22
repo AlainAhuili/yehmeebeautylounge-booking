@@ -20,5 +20,8 @@
     "horizonDays": 56,
     "depositEur": 15,
     "freeCancelHours": 48
+  },
+  "vouchers": {
+    "amountsEur": [25, 50, 75, 100, 150, 200, 250, 300]
   }
 }

@@ -78,6 +78,27 @@ CREATE TABLE IF NOT EXISTS gallery_uploads (
   CONSTRAINT gallery_uploads_user FOREIGN KEY (uploaded_by) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Online payments (SumUp, PayPal) and gift vouchers sold online or in the salon.
+-- Added to existing databases on startup.
+ALTER TABLE bookings
+  ADD COLUMN IF NOT EXISTS payment_ref      VARCHAR(64) NULL,
+  ADD COLUMN IF NOT EXISTS paid_at          DATETIME(3) NULL,
+  ADD COLUMN IF NOT EXISTS hold_until       BIGINT      NULL,
+  ADD COLUMN IF NOT EXISTS cancel_reason    VARCHAR(40) NULL;
+
+ALTER TABLE vouchers
+  ADD COLUMN IF NOT EXISTS amount_eur   DECIMAL(8,2) NULL,
+  ADD COLUMN IF NOT EXISTS source       VARCHAR(16)  NULL,
+  ADD COLUMN IF NOT EXISTS status       VARCHAR(16)  NULL,
+  ADD COLUMN IF NOT EXISTS buyer_name   VARCHAR(80)  NULL,
+  ADD COLUMN IF NOT EXISTS buyer_email  VARCHAR(200) NULL,
+  ADD COLUMN IF NOT EXISTS recipient    VARCHAR(80)  NULL,
+  ADD COLUMN IF NOT EXISTS message      VARCHAR(300) NULL,
+  ADD COLUMN IF NOT EXISTS purchase_ref CHAR(32)     NULL UNIQUE,
+  ADD COLUMN IF NOT EXISTS payment_ref  VARCHAR(64)  NULL,
+  ADD COLUMN IF NOT EXISTS created_at   DATETIME(3)  NULL,
+  ADD COLUMN IF NOT EXISTS paid_at      DATETIME(3)  NULL;
+
 -- Built-in photos the admin has hidden
 CREATE TABLE IF NOT EXISTS gallery_hidden (
   photo_id VARCHAR(80) NOT NULL PRIMARY KEY
