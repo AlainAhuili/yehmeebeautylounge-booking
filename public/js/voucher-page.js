@@ -18,7 +18,7 @@ function field(id, label, input) {
 async function renderForm(paymentResult) {
   const [salon, { methods, testMode }] = await Promise.all([api('GET', '/api/salon'), api('GET', '/api/payments/methods')]);
   const amounts = salon.vouchers.amountsEur;
-  const radios = amounts.map((amount, i) => el('input', { type: 'radio', name: 'amount', value: String(amount), checked: i === 1 }));
+  const radios = amounts.map((amount, i) => el('input', { type: 'radio', name: 'amount', value: String(amount), checked: i === 0 }));
   const buyerName = el('input', { className: 'plain', name: 'buyerName', autocomplete: 'name', required: true, maxLength: 80 });
   const buyerEmail = el('input', { className: 'plain', type: 'email', name: 'buyerEmail', autocomplete: 'email', required: true, maxLength: 200 });
   const recipient = el('input', { className: 'plain', name: 'recipient', maxLength: 80 });

@@ -263,7 +263,7 @@ test('a gift voucher bought online with SumUp works once it is paid', async () =
 
 test('a voucher purchase that is not paid gives no code', async () => {
   const guest = client();
-  await guest('POST', '/api/vouchers/purchase', { amountEur: 25, buyerName: 'Dora', buyerEmail: 'dora@example.com' });
+  await guest('POST', '/api/vouchers/purchase', { amountEur: 50, buyerName: 'Dora', buyerEmail: 'dora@example.com' });
   const voucher = store.data.vouchers.at(-1);
   assert.equal((await comeBack(guest, 'voucher', voucher.purchaseRef, 'cancel')).location, '/gutschein?payment=cancelled');
   assert.equal((await guest('GET', `/api/vouchers/purchase/${voucher.purchaseRef}`)).data.code, null);
