@@ -111,6 +111,8 @@ main { min-height: 50vh; }
 .welcome .btn { width: 100%; max-width: 557px; margin-top: 1.6rem; }
 
 .slider { position: relative; border-radius: 12px; overflow: hidden; background: #000; }
+/* On phones the photos come first, above the welcome text */
+.welcome__inner .slider { order: -1; }
 .slider__track { display: flex; transition: transform 0.6s ease; }
 .slider__track img { flex: 0 0 100%; width: 100%; aspect-ratio: 587 / 331; object-fit: cover; }
 .slider__dots { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; gap: 6px; padding: 4px 6px; border-radius: 999px; background: rgba(60, 60, 60, 0.55); }
@@ -328,6 +330,7 @@ main { min-height: 50vh; }
   .menu__login { margin-left: 1.4rem; }
   .welcome { padding: 5.5rem 0 6rem; }
   .welcome__inner { grid-template-columns: 1fr 1fr; gap: 4.5rem; }
+  .welcome__inner .slider { order: 0; }
   .location__card { grid-template-columns: 360px 1fr; }
   .map { min-height: 100%; }
   .calendar { gap: 8px; }

@@ -39,7 +39,7 @@ function renderService() {
   back.hidden = true;
   main.className = 'step';
   const list = el('div');
-  main.replaceChildren(...stepTitle(t('services.title'), t('services.sub')), list);
+  main.replaceChildren(...stepTitle(t('services.title')), list);
   renderServiceList(list, catalog, { onNext: (s) => go({ service: s.id }) });
 }
 
