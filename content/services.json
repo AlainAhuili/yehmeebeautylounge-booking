@@ -304,7 +304,7 @@
       "services": [
         {
           "id": "acrylic-new-set",
-          "defaultImage": "/images/gallery/nails/nails-01.jpg",
+          "defaultImage": "/images/services/acrylic-new-set.jpg",
           "name": { "de": "Acryl-Neumodellage inkl. Nail Art", "en": "New acrylic set incl. nail art", "fr": "Nouvelle pose acrylique avec nail art", "es": "Uñas acrílicas nuevas con nail art", "it": "Ricostruzione in acrilico con nail art", "nl": "Nieuwe set acryl incl. nail art", "pt": "Aplicação de acrílico com nail art", "tr": "Nail art dahil yeni akrilik", "el": "Νέα τοποθέτηση ακρυλικού με nail art", "pl": "Nowe paznokcie akrylowe z nail art", "cs": "Nová modeláž akrylem vč. nail artu" },
           "durationMin": 180,
           "priceEur": 50,
