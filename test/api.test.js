@@ -33,7 +33,7 @@ const fakeProvider = (name) => ({
   async verify(id) { return checkouts.get(id).status; },
 });
 const payments = { providers: { card: fakeProvider('sumup'), paypal: fakeProvider('paypal') } };
-const app = createApp({ store, salon, catalog, manifest, uploadsDir, payments, clock: () => clockTime, mail: (m) => mails.push(m) });
+const app = createApp({ store, salon, catalog, manifest, uploadsDir, payments, clock: () => clockTime, mail: (m) => mails.push(`${m.to} ${m.subject}\n${m.text}`) });
 
 let server;
 let base;
@@ -163,6 +163,23 @@ test('card deposit: the time is held while paying and booked once SumUp confirms
   assert.equal(mine.status, 'confirmed');
   assert.ok(mine.payment.paidAt);
   assert.equal(mails.filter((m) => m.includes(booking.id)).length, 1, 'one confirmation, even when coming back twice');
+});
+
+test('a payment notification confirms the booking when the customer never comes back', async () => {
+  const res = await ben('POST', '/api/bookings', { serviceId: 'gel-polish', date: '2026-10-23', time: '10:00', payment: 'card' });
+  const stored = () => store.data.bookings.find((b) => b.id === res.data.booking.id);
+
+  await app.locals.settlePayment(stored().payment.ref); // notified before the money is there
+  assert.equal(stored().status, 'pending');
+  await app.locals.settlePayment('unknown-ref'); // ignored
+
+  checkoutOf(res.data.booking).status = 'paid';
+  // The notification and the customer's return arrive at the same moment
+  await Promise.all([app.locals.settlePayment(stored().payment.ref), comeBack(ben, 'booking', res.data.booking.id)]);
+  assert.equal(stored().status, 'confirmed');
+  const confirmations = mails.filter((m) => m.includes(res.data.booking.id));
+  assert.equal(confirmations.length, 1, 'one confirmation');
+  assert.match(confirmations[0], /^ben@example\.com Terminbestätigung: Permanentlack am 23\.10\.2026/);
 });
 
 test('nobody else can complete or cancel your payment', async () => {

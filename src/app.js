@@ -2,9 +2,10 @@
 
 import express from 'express';
 import { randomBytes } from 'node:crypto';
-import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { addDays, dayStatus, localNow, timesForDay, toHHMM, toMinutes } from './availability.js';
+import { diskMedia } from './media.js';
+import { printMail } from './mailer.js';
 import {
   SESSION_COOKIE, SESSION_DAYS, clearSessionCookie, hashPassword, newToken, readCookie,
   setSessionCookie, tokenHash, verifyPassword,
@@ -89,16 +90,17 @@ function minutesUntil(date, minutes, now) {
  * @param {object} deps.salon     content/salon.json
  * @param {object} deps.catalog   content/services.json
  * @param {Array}  deps.manifest  public/images/manifest.json
- * @param {string} deps.uploadsDir  folder for uploaded service photos (served at /media)
+ * @param {string} [deps.uploadsDir]  folder for uploaded photos (served at /media), unless deps.media is given
+ * @param {import('./media.js').Media} [deps.media]  where uploaded photos are kept (src/media.js)
  * @param {string} [deps.adminDir]  private folder with the admin page (served at /admin to admins only)
  * @param {() => Date} [deps.clock]
- * @param {(msg: string) => void} [deps.mail]  sends an email (prints it during development)
+ * @param {(mail: import('./mailer.js').Mail) => void} [deps.mail]  sends an email (src/mailer.js; printed during development)
  * @param {{ providers: Record<string, object> }} [deps.payments]  online payment providers (src/payments.js)
  * @param {string} [deps.publicUrl]  the site's address for payment return links; otherwise taken from the request
  */
 export function createApp({
-  store, salon, catalog, manifest, uploadsDir, adminDir, clock = () => new Date(), mail = console.log,
-  payments = { providers: {} }, publicUrl,
+  store, salon, catalog, manifest, uploadsDir, media = diskMedia(uploadsDir), adminDir, clock = () => new Date(),
+  mail = printMail, payments = { providers: {} }, publicUrl,
 }) {
   const app = express();
   app.disable('x-powered-by');
@@ -214,13 +216,11 @@ export function createApp({
 
   // ---- Service photos (admin) -----------------------------------------------
 
-  const servicePhotos = join(uploadsDir, 'services');
-  mkdirSync(servicePhotos, { recursive: true });
-  app.use('/media/services', express.static(servicePhotos, { maxAge: '7d', immutable: true, index: false }));
+  app.use('/media/services', media.serve('services'));
 
-  function removePhoto(serviceId) {
+  async function removePhoto(serviceId) {
     const old = store.data.serviceImages[serviceId];
-    if (old) rmSync(join(servicePhotos, old.file), { force: true });
+    if (old) await media.remove('services', old.file);
   }
 
   const rawImage = express.raw({ type: () => true, limit: MAX_IMAGE_BYTES });
@@ -240,20 +240,20 @@ export function createApp({
     '/api/admin/services/:id/image',
     requireAdmin,
     rawImage,
-    (req, res) => {
+    async (req, res) => {
       const service = serviceFrom(req.params.id);
       const { body, ext } = imageFrom(req);
       const file = newFileName(service.id, ext);
-      writeFileSync(join(servicePhotos, file), body);
-      removePhoto(service.id);
+      await media.save('services', file, body);
+      await removePhoto(service.id);
       store.change((d) => { d.serviceImages[service.id] = { file, uploadedAt: clock().toISOString(), uploadedBy: req.user.id }; });
       res.json({ image: `/media/services/${file}` });
     },
   );
 
-  app.delete('/api/admin/services/:id/image', requireAdmin, (req, res) => {
+  app.delete('/api/admin/services/:id/image', requireAdmin, async (req, res) => {
     const service = serviceFrom(req.params.id);
-    removePhoto(service.id);
+    await removePhoto(service.id);
     store.change((d) => { delete d.serviceImages[service.id]; });
     res.status(204).end();
   });
@@ -264,9 +264,7 @@ export function createApp({
   // the uploads folder and are really deleted. Newest uploads come first.
 
   const GALLERY_SECTIONS = ['featured', 'nails', 'lashes'];
-  const galleryPhotos = join(uploadsDir, 'gallery');
-  mkdirSync(galleryPhotos, { recursive: true });
-  app.use('/media/gallery', express.static(galleryPhotos, { maxAge: '7d', immutable: true, index: false }));
+  app.use('/media/gallery', media.serve('gallery'));
 
   const builtIn = manifest
     .filter((m) => m.group.startsWith('gallery/'))
@@ -289,22 +287,22 @@ export function createApp({
   // Admin: every photo, including hidden ones, with its id
   app.get('/api/admin/gallery', requireAdmin, (req, res) => res.json(bySection(galleryItems())));
 
-  app.post('/api/admin/gallery/:section', requireAdmin, rawImage, (req, res) => {
+  app.post('/api/admin/gallery/:section', requireAdmin, rawImage, async (req, res) => {
     const section = req.params.section;
     if (!GALLERY_SECTIONS.includes(section)) throw new HttpError(404, 'not_found');
     const { body, ext } = imageFrom(req);
     const file = newFileName(section, ext);
-    writeFileSync(join(galleryPhotos, file), body);
+    await media.save('gallery', file, body);
     const upload = { id: `g-${randomBytes(6).toString('hex')}`, section, file, uploadedAt: clock().toISOString(), uploadedBy: req.user.id };
     store.change((d) => d.gallery.uploads.push(upload));
     res.status(201).json({ photo: { id: upload.id, section, src: `/media/gallery/${file}`, builtIn: false, hidden: false } });
   });
 
-  app.delete('/api/admin/gallery/:id', requireAdmin, (req, res) => {
+  app.delete('/api/admin/gallery/:id', requireAdmin, async (req, res) => {
     const { id } = req.params;
     const upload = store.data.gallery.uploads.find((u) => u.id === id);
     if (upload) {
-      rmSync(join(galleryPhotos, upload.file), { force: true });
+      await media.remove('gallery', upload.file);
       store.change((d) => { d.gallery.uploads = d.gallery.uploads.filter((u) => u !== upload); });
     } else if (builtIn.some((b) => b.id === id)) {
       store.change((d) => { if (!d.gallery.hidden.includes(id)) d.gallery.hidden.push(id); });
@@ -412,7 +410,11 @@ export function createApp({
         d.resets = d.resets.filter((r) => r.userId !== user.id && r.expiresAt > clock().getTime());
         d.resets.push({ tokenHash: tokenHash(token), userId: user.id, expiresAt: clock().getTime() + 60 * 60 * 1000 });
       });
-      mail(`[E-Mail an ${user.email}] Passwort zurücksetzen: /login.html?reset=${token} (1 Stunde gültig)`);
+      mail({
+        to: user.email,
+        subject: 'Passwort zurücksetzen – YehMee Beauty Lounge',
+        text: `Hallo ${user.name},\n\nüber diesen Link kannst du ein neues Passwort festlegen (1 Stunde gültig):\n${siteUrl(req)}/login.html?reset=${token}\n\nWenn du das nicht angefordert hast, kannst du diese E-Mail ignorieren.\n\nYehMee Beauty Lounge`,
+      });
     }
     res.status(204).end();
   });
@@ -511,7 +513,7 @@ export function createApp({
         d.bookings.push(booking);
         d.vouchers.find((v) => v.code === payment.voucherCode).usedBy = booking.id;
       });
-      confirmationMail(booking, req.user);
+      confirmationMail(booking);
       return res.status(201).json({ booking });
     }
 
@@ -532,13 +534,28 @@ export function createApp({
     res.status(201).json({ booking, redirectUrl: checkout.redirectUrl });
   });
 
-  function confirmationMail(booking, user) {
-    mail(`[E-Mail an ${user.email}] Terminbestätigung: ${booking.serviceName} am ${booking.date} um ${booking.time} Uhr (Buchung ${booking.id})`);
+  const germanDate = (iso) => iso.split('-').reverse().join('.');
+
+  function confirmationMail(booking) {
+    const user = store.data.users.find((u) => u.id === booking.userId);
+    if (!user) return;
+    const paid = booking.payment.method === 'voucher'
+      ? `Bezahlt mit Gutschein ${booking.payment.voucherCode}.`
+      : `Deine Anzahlung von ${booking.payment.depositEur} € ist eingegangen und wird vom Preis abgezogen.`;
+    mail({
+      to: user.email,
+      subject: `Terminbestätigung: ${booking.serviceName} am ${germanDate(booking.date)}`,
+      text: `Hallo ${user.name},\n\ndein Termin ist bestätigt:\n\n${booking.serviceName}\n${germanDate(booking.date)}, ${booking.time}–${booking.endTime} Uhr\n${paid}\n\nKostenlos stornieren kannst du bis ${salon.booking.freeCancelHours} Stunden vorher in deinem Konto.\nBuchungsnummer: ${booking.id}\n\nWir freuen uns auf dich!\nYehMee Beauty Lounge`,
+    });
   }
 
   // Refunds are made by the salon in the SumUp or PayPal account; this tells them to
   function refundMail(booking, why) {
-    mail(`[E-Mail an ${salon.email}] Bitte Anzahlung ${booking.payment.depositEur} € erstatten (${booking.payment.method}, Zahlung ${booking.payment.ref}): Buchung ${booking.id} am ${booking.date} um ${booking.time} Uhr. Grund: ${why}`);
+    mail({
+      to: salon.email,
+      subject: `Bitte Anzahlung erstatten: Buchung ${booking.id}`,
+      text: `Bitte Anzahlung ${booking.payment.depositEur} € erstatten (${booking.payment.method}, Zahlung ${booking.payment.ref}).\nBuchung ${booking.id}: ${booking.serviceName} am ${germanDate(booking.date)} um ${booking.time} Uhr.\nGrund: ${why}`,
+    });
   }
 
   app.post('/api/bookings/:id/cancel', requireUser, (req, res) => {
@@ -573,59 +590,86 @@ export function createApp({
 
   const backToConfirm = (b, result) => `/buchen?service=${b.serviceId}&date=${b.date}&time=${b.time}&payment=${result}`;
 
+  /**
+   * Asks the provider about a booking's deposit and confirms or cancels the booking.
+   * Used when the customer comes back from the payment page and when the provider
+   * notifies us (payment-webhook function), whichever happens first.
+   */
+  async function settleBooking(booking, { cancelled = false } = {}) {
+    if (booking.status !== 'pending') return;
+    const result = await verifySafely(payments.providers[booking.payment.method], booking.payment.ref);
+    // The other path may have settled it while we waited for the provider
+    if (booking.status !== 'pending') return;
+    if (result === 'paid') {
+      // Paid after the reservation ran out and someone else took the time: refund
+      const clash = bookingsOn(booking.date).some((b) => b !== booking && booking.start < b.end && b.start < booking.end);
+      store.change(() => {
+        booking.payment.paidAt = clock().toISOString();
+        delete booking.holdUntil;
+        if (clash) {
+          booking.status = 'cancelled';
+          booking.cancelReason = 'slot_taken_after_payment';
+          booking.cancelledAt = clock().toISOString();
+          booking.depositRefunded = true;
+        } else {
+          booking.status = 'confirmed';
+        }
+      });
+      if (clash) refundMail(booking, 'Termin war nach Ablauf der Reservierung vergeben');
+      else confirmationMail(booking);
+    } else if (result === 'failed' || cancelled) {
+      store.change(() => {
+        booking.status = 'cancelled';
+        booking.cancelReason = cancelled ? 'payment_cancelled' : 'payment_failed';
+        delete booking.holdUntil;
+      });
+    }
+  }
+
   async function bookingReturn(req, res, cancelled) {
     if (!req.user) return res.redirect(303, `/login?next=${encodeURIComponent(req.originalUrl)}`);
     const booking = store.data.bookings.find((b) => b.id === req.query.ref && b.userId === req.user.id);
     if (!booking) throw new HttpError(404, 'booking_not_found');
-
-    if (booking.status === 'pending') {
-      const result = await verifySafely(payments.providers[booking.payment.method], booking.payment.ref);
-      if (result === 'paid') {
-        // Paid after the reservation ran out and someone else took the time: refund
-        const clash = bookingsOn(booking.date).some((b) => b !== booking && booking.start < b.end && b.start < booking.end);
-        store.change(() => {
-          booking.payment.paidAt = clock().toISOString();
-          delete booking.holdUntil;
-          if (clash) {
-            booking.status = 'cancelled';
-            booking.cancelReason = 'slot_taken_after_payment';
-            booking.cancelledAt = clock().toISOString();
-            booking.depositRefunded = true;
-          } else {
-            booking.status = 'confirmed';
-          }
-        });
-        if (clash) refundMail(booking, 'Termin war nach Ablauf der Reservierung vergeben');
-        else confirmationMail(booking, req.user);
-      } else if (result === 'failed' || cancelled) {
-        store.change(() => {
-          booking.status = 'cancelled';
-          booking.cancelReason = cancelled ? 'payment_cancelled' : 'payment_failed';
-          delete booking.holdUntil;
-        });
-      }
-    }
+    await settleBooking(booking, { cancelled });
 
     if (booking.status === 'confirmed' || booking.status === 'pending') return res.redirect(303, `/buchen?booked=${booking.id}`);
     const result = { slot_taken_after_payment: 'late', payment_cancelled: 'cancelled' }[booking.cancelReason] ?? 'failed';
     return res.redirect(303, booking.cancelReason ? backToConfirm(booking, result) : `/buchen?booked=${booking.id}`);
   }
 
+  /** Like settleBooking, for a gift voucher bought online. */
+  async function settleVoucher(voucher, { cancelled = false } = {}) {
+    if (voucher.status !== 'pending') return;
+    const result = await verifySafely(payments.providers.card, voucher.paymentRef);
+    if (voucher.status !== 'pending') return;
+    if (result === 'paid') {
+      store.change(() => { voucher.status = 'active'; voucher.paidAt = clock().toISOString(); });
+      mail({
+        to: voucher.buyerEmail,
+        subject: `Dein YehMee-Gutschein über ${voucher.amountEur} €`,
+        text: `Hallo ${voucher.buyerName},\n\nvielen Dank für deinen Gutschein über ${voucher.amountEur} €${voucher.recipient ? ` für ${voucher.recipient}` : ''}.\n\nGutscheincode: ${voucher.code}\n\nBei der Online-Buchung eingeben, dann entfällt die Anzahlung.\n\nYehMee Beauty Lounge`,
+      });
+    } else if (result === 'failed' || cancelled) {
+      store.change(() => { voucher.status = 'cancelled'; });
+    }
+  }
+
   async function voucherReturn(req, res, cancelled) {
     const voucher = store.data.vouchers.find((v) => v.purchaseRef && v.purchaseRef === req.query.ref);
     if (!voucher) throw new HttpError(404, 'not_found');
-    if (voucher.status === 'pending') {
-      const result = await verifySafely(payments.providers.card, voucher.paymentRef);
-      if (result === 'paid') {
-        store.change(() => { voucher.status = 'active'; voucher.paidAt = clock().toISOString(); });
-        mail(`[E-Mail an ${voucher.buyerEmail}] Dein YehMee-Gutschein über ${voucher.amountEur} €${voucher.recipient ? ` für ${voucher.recipient}` : ''}: Code ${voucher.code}. Bei der Online-Buchung eingeben, dann entfällt die Anzahlung.`);
-      } else if (result === 'failed' || cancelled) {
-        store.change(() => { voucher.status = 'cancelled'; });
-      }
-    }
+    await settleVoucher(voucher, { cancelled });
     if (voucher.status === 'cancelled') return res.redirect(303, `/gutschein?payment=${cancelled ? 'cancelled' : 'failed'}`);
     return res.redirect(303, `/gutschein?bought=${voucher.purchaseRef}`);
   }
+
+  // A provider said something happened to this payment (via the payment-webhook
+  // function and src/payment-events.js). Unknown references are ignored.
+  app.locals.settlePayment = async (ref) => {
+    const booking = store.data.bookings.find((b) => b.payment?.ref === ref);
+    if (booking) return settleBooking(booking);
+    const voucher = store.data.vouchers.find((v) => v.paymentRef === ref);
+    if (voucher) return settleVoucher(voucher);
+  };
 
   for (const [path, cancelled] of [['/api/payments/return', false], ['/api/payments/cancel', true]]) {
     app.get(path, (req, res) => {

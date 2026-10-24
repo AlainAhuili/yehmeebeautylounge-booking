@@ -1,0 +1,15 @@
+{
+  "name": "yehmee-db-backup",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "5.0.5",
+    "@google-cloud/storage": "8.4.0",
+    "mariadb": "3.5.4"
+  }
+}

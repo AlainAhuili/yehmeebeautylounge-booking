@@ -20,8 +20,12 @@ async function call(fetch, url, init, what) {
   return data;
 }
 
-/** SumUp: https://developer.sumup.com/online-payments/checkouts/hosted-checkout/ */
-export function sumupProvider({ apiKey, merchantCode, fetch = globalThis.fetch }) {
+/**
+ * SumUp: https://developer.sumup.com/online-payments/checkouts/hosted-checkout/
+ * webhookUrl: SumUp's `return_url`, where it reports status changes (the payment-webhook
+ * function); `redirect_url` is where the customer goes.
+ */
+export function sumupProvider({ apiKey, merchantCode, webhookUrl, fetch = globalThis.fetch }) {
   const base = 'https://api.sumup.com/v0.1/checkouts';
   const headers = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
   return {
@@ -37,6 +41,7 @@ export function sumupProvider({ apiKey, merchantCode, fetch = globalThis.fetch }
           merchant_code: merchantCode,
           description,
           redirect_url: returnUrl,
+          ...(webhookUrl && { return_url: webhookUrl }),
           hosted_checkout: { enabled: true },
         }),
       }, 'SumUp checkout');
@@ -137,7 +142,7 @@ export function paymentsFromEnv(env = process.env) {
   const production = env.NODE_ENV === 'production';
   const providers = {};
   if (env.SUMUP_API_KEY && env.SUMUP_MERCHANT_CODE) {
-    providers.card = sumupProvider({ apiKey: env.SUMUP_API_KEY, merchantCode: env.SUMUP_MERCHANT_CODE });
+    providers.card = sumupProvider({ apiKey: env.SUMUP_API_KEY, merchantCode: env.SUMUP_MERCHANT_CODE, webhookUrl: env.SUMUP_WEBHOOK_URL });
   } else if (!production) {
     providers.card = testProvider('sumup');
   }

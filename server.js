@@ -4,6 +4,9 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { createApp } from './src/app.js';
+import { mailerFromEnv } from './src/mailer.js';
+import { bucketMedia } from './src/media.js';
+import { listenForPaymentEvents } from './src/payment-events.js';
 import { paymentsFromEnv } from './src/payments.js';
 import { openStore } from './src/store.js';
 
@@ -30,8 +33,12 @@ const app = createApp({
   salon: readJson('./content/salon.json'),
   catalog: readJson('./content/services.json'),
   manifest: readJson('./public/images/manifest.json'),
-  // Uploaded photos live next to the data file (on the persistent disk in production)
+  // Uploaded photos: in a Cloud Storage bucket (resized by a function), otherwise
+  // next to the data file
   uploadsDir: process.env.UPLOADS_DIR || root('./data/uploads'),
+  ...(process.env.MEDIA_BUCKET && { media: bucketMedia(process.env.MEDIA_BUCKET) }),
+  // Emails go to the send-email function via Pub/Sub, or are printed (development)
+  mail: mailerFromEnv(),
   // The admin page lives outside public/, so only the app can hand it out (to admins)
   adminDir: root('./admin'),
   // SumUp (cards, vouchers) and PayPal; test checkouts while their keys are missing
@@ -52,10 +59,16 @@ const server = site.listen(PORT, () => {
   console.log(`YehMee booking running at http://localhost:${PORT}`);
   console.log(`Data: ${process.env.DATABASE_URL ? 'MariaDB' : 'JSON file'}`);
   console.log(`Payments: ${Object.entries(payments.providers).map(([m, p]) => `${m} ${p.test ? '(test checkout)' : `via ${p.name}`}`).join(', ') || 'none configured'}`);
-  console.log('Emails are printed here during development.');
+  console.log(`Emails: ${process.env.MAIL_TOPIC ? `Pub/Sub topic ${process.env.MAIL_TOPIC}` : 'printed here'}`);
+  console.log(`Photos: ${process.env.MEDIA_BUCKET ? `bucket ${process.env.MEDIA_BUCKET}` : 'local folder'}`);
 });
 
+// Payment notifications from the payment-webhook function
+const stopPaymentEvents = process.env.PAYMENT_EVENTS_SUBSCRIPTION
+  ? listenForPaymentEvents({ subscription: process.env.PAYMENT_EVENTS_SUBSCRIPTION, onPayment: app.locals.settlePayment })
+  : async () => {};
+
 // Ctrl+C: finish the last database writes before stopping
-const stop = () => server.close(() => store.close().finally(() => process.exit(0)));
+const stop = () => server.close(() => stopPaymentEvents().finally(() => store.close()).finally(() => process.exit(0)));
 process.on('SIGINT', stop);
 process.on('SIGTERM', stop);

@@ -1,0 +1,14 @@
+{
+  "name": "yehmee-payment-webhook",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "5.0.5",
+    "@google-cloud/pubsub": "6.2.0"
+  }
+}
