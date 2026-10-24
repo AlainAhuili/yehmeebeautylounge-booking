@@ -51,8 +51,15 @@ if ($Only -in "", "setup") {
   Step "Service accounts"
   $names = @{ email = "send-email function"; webhook = "payment-webhook function"; resize = "resize-image function"; backup = "db-backup function"; scheduler = "Cloud Scheduler for db-backup"; build = "builds the functions" }
   foreach ($n in $names.Keys) {
-    if (-not (Exists iam service-accounts describe $sa[$n])) { G iam service-accounts create "yehmee-fn-$n" --display-name "YehMee $($names[$n])" | Out-Null }
+    # New projects may only create a few accounts per minute: wait and try again
+    for ($try = 1; -not (Exists iam service-accounts describe $sa[$n]); $try++) {
+      if (Exists iam service-accounts create "yehmee-fn-$n" --display-name "YehMee $($names[$n])") { break }
+      if ($try -ge 5) { throw "could not create service account yehmee-fn-$n" }
+      Write-Host "   quota for new service accounts reached, waiting a minute"
+      Start-Sleep -Seconds 65
+    }
   }
+  Start-Sleep -Seconds 10 # new accounts take a moment before IAM accepts them
   foreach ($role in "roles/cloudbuild.builds.builder", "roles/logging.logWriter", "roles/artifactregistry.writer", "roles/storage.objectViewer") {
     G projects add-iam-policy-binding $Project --member "serviceAccount:$($sa.build)" --role $role --condition None | Out-Null
   }
@@ -60,8 +67,6 @@ if ($Only -in "", "setup") {
   foreach ($n in "email", "resize") {
     G projects add-iam-policy-binding $Project --member "serviceAccount:$($sa[$n])" --role roles/eventarc.eventReceiver --condition None | Out-Null
   }
-  # Cloud Storage publishes the upload events that start resize-image
-  G projects add-iam-policy-binding $Project --member "serviceAccount:service-$number@gs-project-accounts.iam.gserviceaccount.com" --role roles/pubsub.publisher --condition None | Out-Null
 
   Step "Pub/Sub"
   if (-not (Exists pubsub topics describe $mailTopic)) { G pubsub topics create $mailTopic | Out-Null }
@@ -86,6 +91,14 @@ if ($Only -in "", "setup") {
   G storage buckets add-iam-policy-binding "gs://$media" --member "serviceAccount:$vmSa" --role roles/storage.objectAdmin | Out-Null
   G storage buckets add-iam-policy-binding "gs://$media" --member "serviceAccount:$($sa.resize)" --role roles/storage.objectAdmin | Out-Null
   G storage buckets add-iam-policy-binding "gs://$backups" --member "serviceAccount:$($sa.backup)" --role roles/storage.objectCreator | Out-Null
+  # Cloud Storage publishes the upload events that start resize-image. Its service agent
+  # appears with the project's first bucket and takes a little while to reach IAM.
+  $gcsAgent = (G storage service-agent | Select-Object -Last 1).Trim()
+  for ($try = 1; -not (Exists projects add-iam-policy-binding $Project --member "serviceAccount:$gcsAgent" --role roles/pubsub.publisher --condition None); $try++) {
+    if ($try -ge 6) { throw "could not give $gcsAgent the Pub/Sub publisher role" }
+    Write-Host "   waiting for the Cloud Storage service agent"
+    Start-Sleep -Seconds 20
+  }
 
   Step "Backup database user"
   if (-not (Exists secrets describe $dbSecret)) {
@@ -125,6 +138,8 @@ if ($Only -in "", "send-email") {
   G functions deploy yehmee-send-email @base --source "$here\send-email" --entry-point sendEmail `
     --trigger-topic $mailTopic --retry --service-account $sa.email --trigger-service-account $sa.email `
     --env-vars-file $envFile @secret --memory 256Mi --max-instances 3 | Out-Null
+  # Eventarc calls the function as the trigger's account, which needs the invoker role
+  G functions add-invoker-policy-binding yehmee-send-email --region $Region --member "serviceAccount:$($sa.email)" | Out-Null
 }
 
 if ($Only -in "", "payment-webhook") {
@@ -140,6 +155,7 @@ if ($Only -in "", "resize-image") {
   G functions deploy yehmee-resize-image @base --source "$here\resize-image" --entry-point resizeImage `
     --trigger-bucket $media --service-account $sa.resize --trigger-service-account $sa.resize `
     --memory 1Gi --cpu 1 --max-instances 3 | Out-Null
+  G functions add-invoker-policy-binding yehmee-resize-image --region $Region --member "serviceAccount:$($sa.resize)" | Out-Null
 }
 
 if ($Only -in "", "db-backup") {
@@ -148,7 +164,7 @@ if ($Only -in "", "db-backup") {
   $envFile = YamlFile "db-backup" @{ DB_HOST = $dbHost; DB_USER = "yehmee_backup"; DB_NAME = "yehmee"; BACKUP_BUCKET = $backups }
   G functions deploy yehmee-db-backup @base --source "$here\db-backup" --entry-point dbBackup `
     --trigger-http --no-allow-unauthenticated --service-account $sa.backup `
-    --network default --subnet default --egress-settings private-ranges-only `
+    --network default --subnet default `
     --env-vars-file $envFile --set-secrets "DB_PASSWORD=$($dbSecret):latest" --memory 512Mi --timeout 300 --max-instances 1 | Out-Null
   $url = (G functions describe yehmee-db-backup --region $Region --format="value(serviceConfig.uri)").Trim()
   G functions add-invoker-policy-binding yehmee-db-backup --region $Region --member "serviceAccount:$($sa.scheduler)" | Out-Null
