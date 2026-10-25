@@ -204,6 +204,14 @@ main { min-height: 50vh; }
 .service.has-photo .service__pick { grid-row: 2; }
 /* Most photos are portraits with the eyes in the upper third, so crop above the middle */
 .service__photo { grid-column: 1 / -1; grid-row: 1; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; border-radius: 6px; margin-bottom: 0.4rem; }
+/* Several photos: swipe or use the dots, like the start page slider */
+.service__photos { grid-column: 1 / -1; grid-row: 1; position: relative; margin-bottom: 0.4rem; }
+.service__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 6px; }
+.service__track::-webkit-scrollbar { display: none; }
+.service__track img { flex: 0 0 100%; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: center 30%; scroll-snap-align: start; }
+.service__dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; padding: 5px 8px; border-radius: 999px; background: rgba(0, 0, 0, 0.35); }
+.service__dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.6); cursor: pointer; }
+.service__dots button[aria-current="true"] { background: var(--white); }
 
 /* ---- Booking steps: calendar ------------------------------------------- */
 

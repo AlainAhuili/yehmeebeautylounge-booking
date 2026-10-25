@@ -6,11 +6,34 @@ import { el, formatDuration, formatPrice, serviceName } from './lib.js';
 
 const VISIBLE_PER_CATEGORY = 2;
 
-/** Shows (or hides) the service photo at the top of its card. */
-function setPhoto(card, url, alt) {
-  card.querySelector('.service__photo')?.remove();
-  card.classList.toggle('has-photo', Boolean(url));
-  if (url) card.prepend(el('img', { className: 'service__photo', src: url, alt, loading: 'lazy' }));
+/**
+ * Shows the service's photos at the top of its card: one photo as it is, several as
+ * a strip to swipe through (scroll snapping) with dots to switch between them.
+ */
+function setPhotos(card, urls, alt) {
+  card.querySelector('.service__photo, .service__photos')?.remove();
+  card.classList.toggle('has-photo', urls.length > 0);
+  if (!urls.length) return;
+  if (urls.length === 1) {
+    card.prepend(el('img', { className: 'service__photo', src: urls[0], alt, loading: 'lazy' }));
+    return;
+  }
+
+  const track = el('div', { className: 'service__track' }, urls.map((src, i) =>
+    el('img', { src, alt: `${alt} (${i + 1}/${urls.length})`, loading: 'lazy' })));
+  const dots = urls.map((_, i) => {
+    const dot = el('button', { type: 'button' });
+    dot.setAttribute('aria-label', `${alt} ${i + 1}/${urls.length}`);
+    dot.addEventListener('click', () => track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' }));
+    return dot;
+  });
+  const showCurrent = () => {
+    const current = Math.round(track.scrollLeft / Math.max(track.clientWidth, 1));
+    dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === current)));
+  };
+  track.addEventListener('scroll', showCurrent, { passive: true });
+  showCurrent();
+  card.prepend(el('div', { className: 'service__photos' }, [track, el('div', { className: 'service__dots' }, dots)]));
 }
 
 function serviceCard(service, onPick) {
@@ -37,7 +60,7 @@ function serviceCard(service, onPick) {
     el('span', { className: 'duration', textContent: formatDuration(service.durationMin) }),
     ` · ${formatPrice(service.priceEur)}`,
   ]));
-  setPhoto(card, service.image, name);
+  setPhotos(card, service.images ?? (service.image ? [service.image] : []), name);
   return card;
 }
 

@@ -202,12 +202,13 @@ export function createApp({
   app.get('/api/salon', (req, res) => res.json(salon));
 
   // The catalog plus each service's photo: the admin's upload, otherwise the
-  // default photo from services.json (imageIsDefault tells the pages which one)
+  // default photo from services.json (imageIsDefault tells the pages which one).
+  // `images` adds the service's moreImages after it; the card shows them as a slider.
   function withImage(s) {
     const uploaded = store.data.serviceImages[s.id];
-    if (uploaded) return { ...s, image: `/media/services/${uploaded.file}`, imageIsDefault: false };
-    if (s.defaultImage) return { ...s, image: s.defaultImage, imageIsDefault: true };
-    return s;
+    const image = uploaded ? `/media/services/${uploaded.file}` : s.defaultImage;
+    if (!image) return s;
+    return { ...s, image, imageIsDefault: !uploaded, images: [image, ...(s.moreImages ?? [])] };
   }
 
   app.get('/api/services', (req, res) => {

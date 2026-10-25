@@ -87,9 +87,25 @@ test('services with a default photo show it until an admin uploads one', async (
 
 test('every default photo in services.json exists', () => {
   const catalog = read('../content/services.json');
-  for (const s of catalog.categories.flatMap((c) => c.services).filter((x) => x.defaultImage)) {
-    assert.ok(existsSync(new URL(`../public${s.defaultImage}`, import.meta.url)), `${s.id}: ${s.defaultImage}`);
+  for (const s of catalog.categories.flatMap((c) => c.services).filter((x) => x.defaultImage || x.moreImages)) {
+    for (const path of [s.defaultImage, ...(s.moreImages ?? [])].filter(Boolean)) {
+      assert.ok(existsSync(new URL(`../public${path}`, import.meta.url)), `${s.id}: ${path}`);
+    }
   }
+});
+
+test('a service with more photos lists them after its main photo', async () => {
+  const catalog = await (await fetch(`${base}/api/services`)).json();
+  const services = catalog.categories.flatMap((c) => c.services);
+  const acrylic = services.find((s) => s.id === 'acrylic-new-set');
+  assert.deepEqual(acrylic.images, [
+    '/images/services/acrylic-new-set.jpg',
+    '/images/services/acrylic-new-set-2.jpg',
+    '/images/services/acrylic-new-set-3.jpg',
+  ]);
+  assert.equal(acrylic.image, acrylic.images[0], 'the admin page keeps using image');
+  const refill = services.find((s) => s.id === 'refill');
+  assert.deepEqual(refill.images, [refill.image], 'one photo stays one photo');
 });
 
 test('replacing a photo deletes the old file; removing goes back to the default', async () => {
